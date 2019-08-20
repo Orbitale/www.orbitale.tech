@@ -4,6 +4,8 @@ title:  'How I migrated almost all my work to Docker: Act I'
 date:   2019-08-18 15:11:53 +0100
 ---
 
+This post is the first of a series of three posts about how I started to used Docker for all my projects.
+
 I made some tweets a while ago talking about [Docker](https://www.docker.com/), and I must say that I'm a bit afraid that they get lost in an endless timeline.
 
 So here's a small (or not) post about Docker.
@@ -45,3 +47,10 @@ I could find more cases, but at least these ones might help understanding why "n
 ## Dockerize all the things!
 
 In my next post, I will show some examples on how we can start a graceful _"dockerization"_ of our environment.
+
+**Important note:** I will **not** make an _introduction to Docker concepts_. For this, there's an awesome [Get started with Docker](https://docs.docker.com/get-started/) that I followed a long time ago and re-read from time to time to see if I forgot something, or just to keep up to date with the basics.
+In the next posts, I will assume you know the basics of how to build custom images, and even use Docker Compose.
+
+But don't worry, it'll be gentle! I just want to make it straightforward, and the examples will be as simple as possible.
+
+See you on next post! 
