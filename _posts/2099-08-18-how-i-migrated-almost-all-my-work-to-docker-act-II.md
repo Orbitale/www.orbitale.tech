@@ -301,4 +301,18 @@ RUN set -xe \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/* /var/cache/*
 ```
 
-## TODO
+## PHP dependencies
+
+Now that your PHP base Dockerfile is OK, you may need dependencies.
+
+Dependencies can vary: `gd`, `intl`, `apcu`, etc.
+
+Most of them can be installed in different ways (for example, `apcu` must be installed with `pecl`).
+
+This is why I added this line in the Dockerfile:
+
+```
+    && `# Here come the PHP dependencies (see later)` \  
+```
+
+In **your** Dockerfile, you will end up adding PHP extensions installation here.
