@@ -85,6 +85,9 @@ FROM php:7.3-fpm
 
 LABEL maintainer="pierstoval@gmail.com"
 
+## Not mandatory, but I use it as a convention, it's easier to set it up for any other project
+WORKDIR /srv
+
 ## Having it named as "99-..." makes sure your file is the last one to be loaded,
 ## therefore helping you override any part of PHP's native config.
 COPY docker/php/etc/php.ini /usr/local/etc/php/conf.d/99-custom.ini
@@ -316,3 +319,45 @@ This is why I added this line in the Dockerfile:
 ```
 
 In **your** Dockerfile, you will end up adding PHP extensions installation here.
+
+For example, here are the instructions to install the `intl` PHP extension:
+
+* Add `libicu-dev` to your `BUILD_LIBS`
+* Add these instruction in your PHP Dependencies:<br>
+  ```shell script
+  && docker-php-ext-configure intl \
+  && docker-php-ext-install intl \
+  ```
+* And you're set!
+
+Most of the time, installing PHP extensions looks the same as this straightforward example.
+ 
+**Some recommendations though:**
+
+* Most PHP extensions need a system dependency (like `libicu-dev` for the `intl` PHP extension).
+* Some extensions will only need the library **at compile time**. This means that you can add the lib to `BUILD_DIR` var safely and let the Dockerfile remove it at the end.<br>
+
+  > **Note:** When doing so, make sure libs are all installed at the beginning and all removed at the end and you don't recompile anything after that, because you might have errors if php recompiles an extension and the headers are not here anymore for other extensions.
+* Some other extensions will need the library **at runtime**. For example, `gd` might need some PNG or JPEG libs at runtime. This means you must add them to the `PERSISTENT_LIBS`.<br>
+
+  > **Important note:** This should be done only if you can _test_ by yourself that the lib is needed at runtime. Usually, you can either test it with a simple call to `php --version`, because it shows an error like `PHP Warning:  PHP Startup: Unable to load dynamic library 'gd.so'`, or you can test your application directly.
+
+A final note (that's a lot of notes, I know): dependencies requirements may vary depending on PHP versions and operating systems. It can be different if you are using Ubuntu, Debian or Alpine as a base image, for example.
+
+Build it, like `docker build . -t php73`, and if you need to use it, you can run it like this:
+
+```shell script
+# Linux/Mac
+$ docker run -it --rm -v `pwd`:/srv php73 bash
+
+# Windows
+> docker run -it --rm -v %cd%:/srv php73 bash
+```
+
+And voilà! You can use it for any project, and it'll work like charm!
+
+Remember you can add tons of things to your image: static analysis, Composer, etc., it can be very useful.
+
+## That's it (for now)
+
+Once you have set up a base PHP image, you are ready to set up the external services, we will se this in the next post!
