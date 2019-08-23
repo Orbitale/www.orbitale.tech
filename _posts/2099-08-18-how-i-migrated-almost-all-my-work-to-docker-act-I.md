@@ -44,6 +44,20 @@ However, reusability becomes difficult in a few cases:
 
 I could find more cases, but at least these ones might help understanding why "native tools" is not a good idea when working on multiple projects…
 
+## But... why? Should we seriously do that?
+
+Why would we dockerize everything?
+
+I will say it right now: there are **tons of good reasons not to dockerize your environment**.
+
+For example, on my personal machine, I still install latest PHP with a few extensions (apcu, mysql, pgsql, etc.), and I use it conjointedly with Symfony CLI, this way I don't have to install any web server. That's for PHP.
+
+I also usually install latest NodeJS and latest Ruby versions, so I can easily maintain some legacy projects, or this blog with Ruby. I also use NodeJS as a simple web-server wrapper when I have fun with [p5.js](https://p5js.org/) or [TypeScript](https://www.typescriptlang.org/) every once in a while.
+
+Another good reason to not use Docker: sometimes, everything is made simpler with a simple `apt-get install ...`. Like PHP, because it's easy to set up. And if you need a specific version of PHP, you can rely on [deb.sury.org](https://deb.sury.org/) for an `apt` repository allowing you to install latest PHP versions & other ones if you need.
+
+Docker is mostly for complex or legacy projects with very specific dependencies and probably tons of other services (mail, queue...).
+
 ## Dockerize all the things!
 
 In my next post, I will show some examples on how we can start a graceful _"dockerization"_ of our environment.

@@ -344,9 +344,11 @@ Most of the time, installing PHP extensions looks the same as this straightforwa
 
 A final note (that's a lot of notes, I know): dependencies requirements may vary depending on PHP versions and operating systems. It can be different if you are using Ubuntu, Debian or Alpine as a base image, for example.
 
-Build it, like `docker build . -t php73`, and if you need to use it, you can run it like this:
+## Use it
 
-```shell script
+Build the image with `docker build . -t php73`, and if you need to use it, you can run it like this:
+
+```
 # Linux/Mac
 $ docker run -it --rm -v `pwd`:/srv php73 bash
 
@@ -357,6 +359,20 @@ $ docker run -it --rm -v `pwd`:/srv php73 bash
 And voilà! You can use it for any project, and it'll work like charm!
 
 Remember you can add tons of things to your image: static analysis, Composer, etc., it can be very useful.
+
+Bonus: on Linux you can create an alias in your `.bash*` files in order to simplify calling the image:
+
+```bash
+alias php-docker="docker run -it --rm -v `pwd`:/srv php73 bash"
+```
+
+> **Note:**<br>
+> Windows does not support aliases, but you can create a `php-docker.bat` Batch file with this:
+> ```cmd
+@echo off
+docker run -it --rm -v %cd%:/srv php73 bash
+```
+> Make sure this file is in your `%PATH%`. I usually create a `%HOME%/bin` directory and update `PATH` manually in Windows environment vars settings.
 
 ## That's it (for now)
 
