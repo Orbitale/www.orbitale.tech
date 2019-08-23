@@ -1,10 +1,17 @@
 ---
 layout: post
 title:  'How I migrated almost all my work to Docker: Act II'
-date:   2019-08-18 15:11:53 +0100
+date:   2099-08-18 15:11:53 +0100
 ---
 
 This post is the second of a series of three posts about how I started to used Docker for all my projects.
+
+If you have not read the other ones, you may give them a go before reading this one:
+
+* [Act I](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-I.html)
+* Act II (current)
+* [Act III](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-III.html)
+* [Act IV](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-IV.html)
 
 ## Reminder of previous post
 

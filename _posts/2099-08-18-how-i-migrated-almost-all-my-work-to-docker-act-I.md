@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  'How I migrated almost all my work to Docker: Act I'
-date:   2019-08-18 15:11:53 +0100
+date:   2099-08-18 15:11:53 +0100
 ---
 
 This post is the first of a series of three posts about how I started to used Docker for all my projects.
@@ -9,6 +9,13 @@ This post is the first of a series of three posts about how I started to used Do
 I made some tweets a while ago talking about [Docker](https://www.docker.com/), and I must say that I'm a bit afraid that they get lost in an endless timeline.
 
 So here's a small (or not) post about Docker.
+
+If you want to read the others, please refer to this index:
+
+* Act I (current)
+* [Act II](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-II.html)
+* [Act III](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-III.html)
+* [Act IV](/2099/08/18/how-i-migrated-almost-all-my-work-to-docker-act-IV.html)
 
 ## A long time ago, on a computer far far away...
 
@@ -30,7 +37,7 @@ I was (and still am) mostly using Windows to work, because, well, I like to have
 
 This is still not optimized because if I ever lost my machine (which did not happen in 6 years), I would have to restart from scratch, all setup and stuff.
 
-I was pretty satisfied with Apache Lounge +  php-cgi , actually. And even [Symfony CLI tool](https://symfony.com/cloud/) uses it when serving an app with `symfony serve`, so this is a nice solution.
+I was pretty satisfied with Apache Lounge + `php-cgi`, actually. And even [Symfony CLI tool](https://symfony.com/cloud/) uses it when serving an app with `symfony serve`, so this is a nice solution.
 
 I even installed multiple NodeJS versions to fit the different projects I work on.
 
@@ -38,11 +45,11 @@ However, reusability becomes difficult in a few cases:
 
 * Use different PHP extensions everytime. For example, `xdebug` is not installed everywhere, but that's not the worse part (because I can still do `-dzend_extension=xdebug.dll` when running a script). The worse part is when you need some extenson for a specific project, and don't need it for another. Testing features that rely or not on PHP extensions can be tricky (`intl`, `mbstring`, `fileinfo`, etc.), and I was quite tired of enabling/disabling extensions manually & restarting server before working on something.
 * Multiple PHP versions is nice, but sometimes a project uses a specific PHP 5.5 or 5.6, and this is a bit harder because I can't have hundreds of PHP versions on my machine. With Docker, I just don't care.
-* Restarting the web-server or php-cgi is boring on Windows. Even if I can do `nssm restart php7.1-cgi` or `nssm restart apache`, it's not as straightforward as `make restart` on a project. Which doesn't need restart as much often as when working on multiple projects.
+* Restarting the web-server or `php-cgi` is boring on Windows. Even if I can do `nssm restart php7.1-cgi` or `nssm restart apache`, it's not as straightforward as `make restart` on a project. Which doesn't need restart as much often as when working on multiple projects.
 * Databases. Most of my projects use MySQL or MariaDB, and I have to have both on my machine. Conflicting ports, root password, etc., things that nobody wants to take care of. I just want a f*** database ☺. And by the way, installing MySQL on Windows is just a [PITA](https://www.urbandictionary.com/define.php?term=pita#549368).
 * External components: Redis, ElasticSearch, Blackfire (installing Blackfire for **all** versions of PHP, phew…), RabbitMQ, and tons of other tools that anybody may need during development. I was lazy so most of the time I configured "nothing in dev, redis in prod". Bad idea. Have redis in prod? Then, have redis in dev. Period, end of story. But which version? Well, each project has its own. Again here, one single environment is not the best option.
 
-I could find more cases, but at least these ones might help understanding why "native tools" is not a good idea when working on multiple projects…
+I could find more cases, but at least these ones might help understanding why "native tools" is not always a good idea when working on multiple projects…
 
 ## But... why? Should we seriously do that?
 
@@ -56,7 +63,10 @@ I also usually install latest NodeJS and latest Ruby versions, so I can easily m
 
 Another good reason to not use Docker: sometimes, everything is made simpler with a simple `apt-get install ...`. Like PHP, because it's easy to set up. And if you need a specific version of PHP, you can rely on [deb.sury.org](https://deb.sury.org/) for an `apt` repository allowing you to install latest PHP versions & other ones if you need.
 
-Docker is mostly for complex or legacy projects with very specific dependencies and probably tons of other services (mail, queue...).
+Finally, the best reason is difficulty: you need to actually _learn_ Docker concepts, how it works, all the edge cases (networks, volumes...), and even worse: you need to build images. Trust me, building "the" image that "just works" takes time and energy, and I got lost in the past for days just because I forgot to add a system dependency or because I ran a script before another...<br>
+If you have mentors that can help you fix your Docker issues, or if you have a lot of time, Docker is a really nice way to go. But time is money, and the boss doesn't care, he just wants you to ship, even if you do it badly, so it's better to stick to something you already know an "just works" (and I personally do not like that at all, but I'm not the boss yet, so I have no way to fix this for now).
+
+Docker is mostly for complex or legacy projects with very specific dependencies and probably tons of other services (mail, queue...), and for people that have **the best compromise with time, knowledge and learning practices**.
 
 ## Dockerize all the things!
 
