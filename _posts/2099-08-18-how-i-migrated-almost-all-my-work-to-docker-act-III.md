@@ -19,17 +19,15 @@ In the previous post, I gave a lot of examples related to PHP with Docker.
 
 This third post will explain how we can migrate of our environment **services** with Docker in order to simplify our lives.
 
-## External services
-
-Databases are the most straightforward solution, but this is valid for _any_ type of service, could it be a mailer, a queue system or a cache engine.
-
 ## What is a "service"?
+
+Databases are the most straightforward example, but this is valid for _any_ type of service, could it be a mailer, a queue system or a cache engine.
 
 Usually with PHP setups we start learning by installing an *AMP environment (LAMP for Linux, WAMP for Windows, etc.). They correspond to "Apache, Mysql and PHP".
 
 I will not explain why Apache is a bad solution, there is already a glance of this opinion on my [Apache and PHP-FPM in Windows](/2017/11/11/apache-and-php-fpm-in-windows.html) post.
 
-The problem with this setup is that all three services are tied together and if you don't do PHP, you just don't care about it and just want a MySQL server for example. With NodeJS you might not need Apache at all. With Ruby, well you need Ruby of course, and you'll need a database.
+The problem with this setup is that all three services are tied together and if you don't do PHP, you don't care about it and just want a MySQL server for example. With NodeJS you might not need Apache at all. With Ruby, well you need Ruby of course, and you may need a database.
 
 And this is not only for MySQL: one day you'll end up adding a RabbitMQ queue, or a Mailcatcher server to debug your e-mails, or a Redis server for your HTTP sessions, well, at some point you need to install something that needs tons of configuration.<br>
 Just like PHP.
@@ -62,10 +60,10 @@ mysql>
 
 **Bonuses:**
 
-* You can make it always available by appending the `--restart=always` (be careful, if it bugs all the time, you'll need to remove the container and recreate it).
+* You can make it always available by appending the `--restart=always` option (be careful, if it bugs or crashes, you'll need to kill & remove the container and recreate it).
 * You can store all data from it in your machine by adding a volume mounted on the container's mysql `datadir`: `--volume /your/mysql/data:/var/lib/mysql` (customize your mysql data dir), making data persistent even if you remove the container.
-* You can start several other mysql servers with the same or other versions just by changing the exposed port and the container name, like `--name=other_mysql -p 13306:3306`.
-* It's a one-liner command: make it an alias too!
+* You can start several other mysql servers with the same or other versions by changing the exposed port and the container name, like `--name=other_mysql -p 13306:3306`.
+* It's a one-liner command: make it an alias like you did before with PHP!
 
 ## PostgreSQL
 
@@ -73,7 +71,6 @@ If we can do it with MySQL, we can do it with PostgreSQL!
 
 ```
 $ docker run --name=postgres -dit -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
-{container id}
 ```
 
 Use it:
@@ -116,7 +113,7 @@ Almost every service can be used.
 * As long as we don't touch anything on the container (recreate/remove/etc), the data in it will be kept between starts and stops.
 * Some of them can use persistent storages and put them in files, and most docker images documentations explain what is the directory you should mount as a Docker volume in order to store it on your machine so it can be available even if you recreate a new container.
 * It can be used by any app, and all you need to do is refer to them as `127.0.0.1` and use a port you manually exposed. Be careful not to expose twice the same port to avoid conflicts (Docker does not allow it anyway).
-* It can be aliased and used as a simple starter when you have a brand new machine and you don't want to set up everything on it (you just install Docker and all the rest is just "download & run", no config).
+* It can be aliased and used as a starter when you have a brand new machine and you don't want to set up everything on it (you install Docker and all the rest is only "download & run", no config).
 * You can use the same version as the one you use on your production server.
 * You can create as many containers as you wish with the names you want for several apps on your machine.
 
