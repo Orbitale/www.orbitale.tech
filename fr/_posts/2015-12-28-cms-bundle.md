@@ -8,21 +8,23 @@ lang-ref: cms-bundle
 
 ## Vous n'avez jamais vu de CMS aussi simple avec Symfony.
 
-Simple Page+Category system. Deep urls.
+Système simple de pages et catégories. Urls longues et imbriquées sans configuration additionnelle :
 
 ```
 /pages/
-/pages/home
-/pages/home/about
-/pages/team
-/pages/team/devs
+/pages/accueil
+/pages/accueil/a-propos
+/pages/equipe
+/pages/equipe/devs
 ```
 
-Zero layout = 100% flexible template.
+Pas de mise en page initiale = template 100% flexible.
 
-Layout based on URI pattern = 100% customized layout. Ready-to-plug to Javier Eguiluz's EasyAdminBundle admin backend
-with a simple code explained in the documentation. !
+Template basé sur l'URL = mise en page 100% personnalisée.
 
-* [View the demo here](http://demo.orbitale.io/orbitale_cms/)
-* [View OrbitaleCmsBundle on Github](https://github.com/Orbitale/CmsBundle)
-* [And the documentation here](https://github.com/Orbitale/CmsBundle)
+Prêt à brancher sur le générateur d'administration EasyAdminBundle de Javier Eguiluz
+avec un code simple expliqué dans la documentation !
+
+* [Voir la démo ici] (http://demo.orbitale.io/orbitale_cms/)
+* [Voir OrbitaleCmsBundle sur Github] (https://github.com/Orbitale/CmsBundle)
+* [Et la documentation ici] (https://github.com/Orbitale/CmsBundle)
