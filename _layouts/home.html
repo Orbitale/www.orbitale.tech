@@ -9,13 +9,13 @@ layout: default
 
   {{ content }}
 
-  {% unless page.lang == "fr" or page.lang == "en" %}
-      {% assign lang = "en" %}
-  {% else %}
-      {% assign lang = page.lang %}
-  {% endunless %}
+  {%- unless page.lang == "fr" or page.lang == "en" -%}
+      {%- assign lang = "en" -%}
+  {%- else -%}
+      {%- assign lang = page.lang -%}
+  {%- endunless -%}
 
-  {% assign posts = site.posts | where:"lang", lang %}
+  {%- assign posts = site.posts | where:"lang", lang -%}
   {%- if posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
