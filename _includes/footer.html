@@ -1,7 +1,4 @@
-
 <footer class="site-footer h-card">
-  <data class="u-url" href="{{ "/" | relative_url }}"></data>
-
     {%- unless page.lang == "fr" or page.lang == "en" -%}
         {%- assign currentLang = "en" -%}
     {%- else -%}
@@ -45,6 +42,10 @@
             </ul>
         </div>
     {%- endif -%}
+</footer>
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
     <div class="wrapper">
 
