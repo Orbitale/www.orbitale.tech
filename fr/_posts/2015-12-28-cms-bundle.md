@@ -6,7 +6,7 @@ lang: fr
 lang-ref: cms-bundle
 ---
 
-## You've never seen a CMS so simple with Symfony.
+## Vous n'avez jamais vu de CMS aussi simple avec Symfony.
 
 Simple Page+Category system. Deep urls.
 
