@@ -2,7 +2,7 @@
 layout: post
 title:  'Free and conscious help'
 date:   2020-05-16 17:00:59 -0500
-lang: en
+lang: fr
 lang-ref: free-and-conscious-help
 ---
 

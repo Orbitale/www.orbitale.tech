@@ -2,7 +2,7 @@
 layout: post
 title:  'An attempt to use SvelteJS with Deno'
 date:   2020-06-04 11:20:56 -0500
-lang: en
+lang: fr
 lang-ref: an-attempt-to-use-sveltejs-with-deno
 ---
 

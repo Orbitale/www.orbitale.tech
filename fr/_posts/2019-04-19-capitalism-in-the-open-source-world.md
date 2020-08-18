@@ -2,7 +2,7 @@
 layout: post
 title:  'Capitalism in the open-source world'
 date:   2019-04-19 17:16:38 +0200
-lang: en
+lang: fr
 lang-ref: capitalism-in-the-open-source-world
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  '[PHP Basics] Functions and methods prototypes'
 date:   2017-10-25 11:29:57 +0200
-lang: en
+lang: fr
 lang-ref: php-basics-functions-and-methods-prototypes
 ---
 

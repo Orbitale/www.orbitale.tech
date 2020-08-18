@@ -2,7 +2,7 @@
 layout: post
 title:  'The Symfony container graph'
 date:   2018-12-04 20:31:46 +0100
-lang: en
+lang: fr
 lang-ref: the-symfony-container-graph
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act II: PHP'
 date:   2019-09-02 10:00:00 +0200
-lang: en
+lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-II-php
 ---
 

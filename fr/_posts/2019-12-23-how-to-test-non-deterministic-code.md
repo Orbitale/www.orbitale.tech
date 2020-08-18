@@ -2,7 +2,7 @@
 layout: post
 title:  'How to test non-deterministic code?'
 date:   2019-12-24 12:30:01 +0200
-lang: en
+lang: fr
 lang-ref: how-to-test-non-deterministic-code
 ---
 

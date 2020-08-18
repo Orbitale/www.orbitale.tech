@@ -2,7 +2,7 @@
 layout: post
 title:  "CmsBundle"
 date:   2015-12-28 19:08:22 +0200
-lang: en
+lang: fr
 lang-ref: cms-bundle
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "Doctrine tools"
 date:   2015-12-28 22:17:44 +0200
-lang: en
+lang: fr
 lang-ref: doctrine-tools
 ---
 

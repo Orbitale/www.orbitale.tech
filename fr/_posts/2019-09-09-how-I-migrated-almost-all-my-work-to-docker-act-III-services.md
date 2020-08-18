@@ -2,7 +2,7 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act III: services'
 date:   2019-09-09 10:00:00 +0200
-lang: en
+lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-III-services
 ---
 

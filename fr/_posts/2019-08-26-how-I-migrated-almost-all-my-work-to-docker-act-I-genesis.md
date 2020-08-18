@@ -2,7 +2,7 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act I: genesis'
 date:   2019-08-26 10:00:00 +0200
-lang: en
+lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-I-genesis
 ---
 

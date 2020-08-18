@@ -2,7 +2,7 @@
 layout: post
 title:  'Array options: a solution with Symfony OptionResolver'
 date:   2019-08-18 07:30:42 -0500
-lang: en
+lang: fr
 lang-ref: array-options-a-good-solution-with-symfony-optionsresolver
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  'Apache and PHP-FPM in Windows'
 date:   2017-11-11 13:14:15 +0100
-lang: en
+lang: fr
 lang-ref: apache-and-php-fpm-in-windows
 ---
 

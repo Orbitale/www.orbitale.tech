@@ -2,7 +2,7 @@
 layout: post
 title:  '[Gist] Regular expression for ImageMagick "Geometry"'
 date:   2016-03-25 10:12:43 +0200
-lang: en
+lang: fr
 lang-ref: gist-regular-expression-for-imagemagick-geometry
 ---
 

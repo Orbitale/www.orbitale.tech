@@ -2,7 +2,7 @@
 layout: post
 title:  "Manage FOSUser in EasyAdmin"
 date:   2015-12-28 22:27:20 +0200
-lang: en
+lang: fr
 lang-ref: manage-fosuser-in-easyadmin
 ---
 

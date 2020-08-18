@@ -2,7 +2,7 @@
 layout: post
 title:  "EasyImpress"
 date:   2015-12-28 18:48:24 +0200
-lang: en
+lang: fr
 lang-ref: easy-impress
 ---
 

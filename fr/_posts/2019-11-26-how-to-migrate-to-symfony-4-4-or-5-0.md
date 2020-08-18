@@ -2,7 +2,7 @@
 layout: post
 title:  'How to migrate to Symfony 4.4 / 5.0'
 date:   2019-11-26 06:29:17 -0600
-lang: en
+lang: fr
 lang-ref: how-to-migrate-to-symfony-4-4-or-5-0
 ---
 
