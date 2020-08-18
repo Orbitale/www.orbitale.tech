@@ -6,11 +6,11 @@ lang: fr
 lang-ref: easy-impress
 ---
 
-EasyImpress is a PHP application developed with Symfony framework, it allows you to realize beautiful 3D sliders using
-the powerful [Impress.js](https://github.com/bartaz/impress.js/) library.
-The demonstration is built with [EasyImpressBundle](https://github.com/Orbitale/EasyImpressBundle), which allow you to
-write simple configuration and get all the benefits of Impress.js in a simple configuration file.
-With a simple [YAML](http://en.wikipedia.org/wiki/YAML) file, you can place all your sliders in the canvas.
+EasyImpress est un outil en PHP développé avec le framework Symfony qui vous permet de réaliser de superbes présentations 3D en utilisant la puissante bibliothèque [Impress.js](https://github.com/bartaz/impress.js/).
+
+La démonstration est réalisée avec [EasyImpressBundle](https://github.com/Orbitale/EasyImpressBundle), qui vous permet de bénéficier de tous les avantages d'Impress.js dans un seul fichier de configuration.
+
+Avec un simple fichier [YAML](http://en.wikipedia.org/wiki/YAML), vous pouvez réaliser toutes vos slides.
 
 {% highlight yaml %}
 slides:
@@ -26,7 +26,7 @@ slides:
            z: 500
 {% endhighlight %}
 
-Realize simple horizontal transitions
+Réalisez des transitions horizontales simples:
 
 {% highlight yaml %}
 config:
@@ -36,7 +36,7 @@ config:
           i: 100
 {% endhighlight %}
 
-Or more complex canvases!
+Ou des présentations plus complexes!
 
-* [View EasyImpressBundle on Github](https://github.com/Orbitale/EasyImpressBundle), with its documentation.
-* [View the demo here](http://demo.orbitale.io/easy_impress/).
+* [Voir EasyImpressBundle sur Github](https://github.com/Orbitale/EasyImpressBundle), avec sa documentation.
+* [Voir la démo ici](http://demo.orbitale.io/easy_impress/).
