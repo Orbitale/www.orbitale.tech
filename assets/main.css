@@ -473,3 +473,13 @@ pre {
   width: 15px;
   height: 15px;
 }
+
+/**
+ * Custom overrides
+ */
+
+hr {
+  margin: 10px 0;
+  border: 0 transparent;
+  border-top: solid 1px #ddd;
+}
