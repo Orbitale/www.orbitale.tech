@@ -30,9 +30,8 @@ $ convert my_image.jpg -resize 250x350 output.jpg
 This will resize to 250×350 but will keep proportions and ratio, so if your image is a square of 1500×1500 pixels, it will be resized to the _lowest_ value of the ratio, so your image will be 250×250 in fine. There are plenty of other things you can do with Geometry arguments.
 
 For example, you can [crop](http://www.imagemagick.org/script/command-line-options.php#crop) an image.
-Let's get an example:
 
-We want to crop this image in the red zone:<br>
+Let's get an example with this image:<br>
 ![Orbitale logo](/img/regex_image_to_crop.png)<br>
 <br>
 We'll crop it to get just a portion of the center of the image.
@@ -61,7 +60,7 @@ The problem is that Geometry arguments are veeeeeery complex to parse.
 If you read the docs of the Geometry argument, you may have noticed that it's extremely flexible but some parts are very
 restrictive.
 
-For example, you can use **200×250**, **200** (only 200 with), **×250** (only height), but not **200×** because it's an
+For example, you can use **200×250**, **200** (only 200 width), **×250** (only height), but not **200×** because it's an
 error.
 
 There are more tricks to see, but we have to think very hard when we want to validate the Geometry option in the
@@ -89,4 +88,40 @@ Thanks to the great PCRE regexp I could add identifiers to each part of the rege
 the `$matches` argument to retrieve all Geometry informations if one need them.
 
 Here is the final result of the regexp, don't cry: 
-[https://gist.github.com/Pierstoval/eac8d182d2c51c93202f](https://gist.github.com/Pierstoval/eac8d182d2c51c93202f)
+
+```php
+<?php
+
+// It's a reference to use in other cases that matches any kind of number/float
+$number = "\d*(?:\.\d+)?"; 
+
+// This is the first part, the width
+$width = "(?<w>(?:$number)?%?)?"; 
+
+// Here is the height, the same as "width" but starting with an "x"
+$height = "(?:x(?<h>(?:$number)?%?))?"; 
+
+// This is the geometry offset
+$offset = "(?<x>[+-]$number)?(?<y>[+-]$number)?"; 
+
+// To match width, height, or both
+$size = "$width$height"; 
+
+// These are the different filters one can use to stretch, shrink, etc.
+$aspect = "[!><@^]"; 
+
+// Here we have the full regexp
+$regexp = "(?<size>$size)(?<aspect>$aspect)?(?<offset>$offset)"; 
+
+echo $regexp;
+
+/*
+
+Should echo this:
+(yes, it's multiline for readability, but originally it is not)
+
+(?<size>(?<w>(?:\d*(?:\.\d+)?)?%?)?(?:x(?<h>(?:\d*(?:\.\d+)?)?%?))?)
+(?<aspect>[!><@^])?(?<offset>(?<x>[+-]\d*(?:\.\d+)?)?(?<y>[+-]\d*(?:\.\d+)?)?)
+
+*/
+```
