@@ -28,7 +28,11 @@ Here, no type, but signature is using 3 arguments.
 
 Full example:
 ```php
-public function loginAction(Request $request, string $username, bool $useReferer = true): Response
+public function loginAction(
+    Request $request,
+    string $username,
+    bool $useReferer = true
+): Response
 {
     // ...
 }
