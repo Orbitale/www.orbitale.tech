@@ -89,7 +89,7 @@ app_lucky_number:
     controller: App\Controller\LuckyController::number
 ```
 
-**State: a controller is Note a class**
+**State: a controller is not a class**
 
 When we look at it, a controller is just a **callable**.
 
