@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  'Qu\'est-ce qu'un contrôleur ?'
+title:  "Qu'est-ce qu'un contrôleur ?"
 date:   2019-07-19 02:01:09 +0200
 lang: fr
 lang-ref: what-is-a-controller
