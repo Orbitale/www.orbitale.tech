@@ -13,7 +13,7 @@ Du coup, voici un petit (ou pas) article à propos de Docker.
 Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
 * Acte I: Genèse (actuel)
-* [Acte II: PHP](/2019/09/02/how-I-migrated-almost-all-my-work-to-docker-act-II-php.html)
+* [Acte II: PHP](/fr/2019/09/02/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-II-php.html)
 * [Acte III: Services](/2019/09/09/how-I-migrated-almost-all-my-work-to-docker-act-III-services.html)
 * [Acte IV: Projet](/2019/09/16/how-I-migrated-almost-all-my-work-to-docker-act-IV-compose.html)
 
@@ -28,6 +28,8 @@ Entre mon premier "[whalesay](https://docs.docker.com/get-started/)" et mon prem
 3 ans, pour être "confortable" avec le concept d'une "image-qui-est-comme-un-fichier-ISO-mais-pas-vraiment-un-ISO" et le concept d'un "conteneur-comme-une-machine-virtuelle-mais-pas-vraiment-une-machine-virtuelle".
 
 Maintenant, je _dockerise_ quasiment tous mes projets.
+
+> **Note :** je vais sciemment et audacieusement employer le néologisme "dockeriser" un peu partout dans cette série d'article, parce que je le trouve sympa, et qu'il représente en un seul mot la quasi totalité de ce dont parle cette série d'articles, profitez-en, et à bas les règles de l'Académie Française ☺.
 
 ## [How did it come to this?](https://open.spotify.com/track/0UMROwhQyAbWWLSnBH0e1L?si=gaj5R4H3TvWCWgIdngNZpQ) 
 
