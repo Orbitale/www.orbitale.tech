@@ -2,10 +2,10 @@ version: '3'
 
 services:
     jekyll:
-        image: jekyll/jekyll:3.8
+        image: jekyll/jekyll:3
         volumes:
           - ./:/srv/jekyll:delegated
           - ./vendor/bundle:/usr/local/bundle
         ports:
-          - 4000:4000
-        command: jekyll serve --watch --force_polling
+          - '4000:4000'
+        command: bundle exec jekyll serve --watch --force_polling --incremental -H 0.0.0.0
