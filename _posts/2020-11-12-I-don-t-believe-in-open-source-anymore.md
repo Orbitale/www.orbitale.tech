@@ -16,7 +16,9 @@ Some reasons:
 
 Next: continue reading.
 
-I think GAFAM/FAANG/NATU/BHATX are just sucking all free knowledge in order to give more money to the richest.
+## What's going on?
+
+I think [GAFAM/FAANG/NATU/BHATX](https://en.wikipedia.org/wiki/Big_Tech) are just sucking all free knowledge in order to give more money to the richest.
 
 Even though some of them sort of "sponsor" open source initiatives, they would still die if there was no open source.
 
@@ -26,6 +28,8 @@ And yet these people don't get any reward.
 
 Paying them to work full-time on their contributions is IMO the ultimate solution.
 
+## Contributing: is it code?
+
 Also, some people consider that open source is "contributing with code".
 
 It's not.
@@ -34,7 +38,8 @@ It's also helping people on different networks (stack overflow, twitter, slack, 
 
 Zero recognition here either.
 
-I'm literally tired that everything that pops in my news, mailing lists, social media, related to open source is mostly something like "We're {whoever} doing {whatever} and we open source!" while it's just a bunch of rich capitalist white guys in the bay area making more money.
+I'm literally tired that everything that pops in my news, mailing lists, social media, related to open source is mostly something like _"We're {whoever} doing {whatever} and we open source!"_ while it's just a bunch of rich capitalist white guys in the bay area making more money.
+
 I know there are still good initiatives. In France for instance we have this (old but becoming popular again) concept of "cooperative companies", some of them want to do open source in the "good way". There are others in the world too, I know that.
 
 This is just not enough.
@@ -44,6 +49,8 @@ But everything is still sucked in its essence by big corporations.
 ( Just like everything else, by the way (health, security, democracy, nature...). )
 
 And nobody can do anything against that, and that's what kinda depresses me.
+
+## The reason
 
 The reason why I think I don't believe in Open Source anymore is because this happens for lower level tools (such as linux kernel, programming languages, libraries, frameworks...) by them being used for money in big companies, thanks to the MIT license.
 
@@ -69,6 +76,8 @@ You wouldn't call your plumbing expert to ask them how to fix your leak.
 Either do it yourself, or pay them.
 
 Same with Open Source.
+
+## What to do then?
 
 New Open Source licenses must be developed, new funding methods must be legislated.
 
