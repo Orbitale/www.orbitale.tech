@@ -59,7 +59,7 @@ Take Curl for instance. It's the most used HTTP client tool in the world.
 
 I bet that *any* close source software that *ever* needs to fetch *any* data from the internet will use Curl.
 
-Just imagine if $0.01 was given to @bagder everytime a private software using Curl was sold.
+Just imagine if $0.01 was given to [@bagder](https://twitter.com/bagder/) everytime a private software using Curl was sold.
 
 That's what makes me think Open Source is no longer sustainable.
 
