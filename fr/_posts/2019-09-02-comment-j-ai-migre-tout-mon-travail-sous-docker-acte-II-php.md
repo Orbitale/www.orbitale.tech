@@ -6,14 +6,14 @@ lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-II-php
 ---
 
-Cet article est le deuxième d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
+Cet article est le premier d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
 
 Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
-* [Act I: Genesis](/fr/2019/08/26/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-I-genese.html)
-* Act II: PHP (actuel)
-* [Act III: Services](/2019/09/09/how-I-migrated-almost-all-my-work-to-docker-act-III-services.html)
-* [Act IV: Project](/2019/09/16/how-I-migrated-almost-all-my-work-to-docker-act-IV-compose.html)
+* [Acte I: Genèse](/fr/2019/08/26/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-I-genese.html)
+* Acte II: PHP (actuel)
+* [Acte III: Services](/fr/2019/09/09/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-III-services.html)
+* [Acte IV: Projet](/fr/2019/09/16/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-IV-compose)
 
 ## Résumé des épisodes précédents
 

@@ -6,16 +6,16 @@ lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-IV-compose
 ---
 
-This post is the last one of a series of four posts about how I dockerized all my projects.
+Cet article est le premier d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
 
-If you have not read the other ones, you may give them a go before reading this one:
+Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
-* [Act I: Genesis](/2019/08/26/how-I-migrated-almost-all-my-work-to-docker-act-I-genesis.html)
-* [Act II: PHP](/2019/09/02/how-I-migrated-almost-all-my-work-to-docker-act-II-php.html)
-* [Act III: Services](/2019/09/09/how-I-migrated-almost-all-my-work-to-docker-act-III-services.html)
-* Act IV (current)
+* [Acte I: Genèse](/fr/2019/08/26/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-I-genese.html)
+* [Acte II: PHP](/fr/2019/09/02/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-II-php.html)
+* [Acte III: Services](/fr/2019/09/09/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-III-services.html)
+* Acte IV: Projet (actuel)
 
-## Reminder of previous posts
+## Résumé des épisodes précédents
 
 In the previous posts, we saw how to use Docker to simplify services creation for many subjects: PHP at first, and other services after, like MySQL, Redis, etc.
 

@@ -1,21 +1,21 @@
 ---
 layout: post
-title:  'How I migrated almost all my work to Docker Act III: services'
+title:  'Comment j''ai migré tout mon travail sous Docker Acte III : Services'
 date:   2019-09-09 10:00:00 +0200
 lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-III-services
 ---
 
-This post is the third of a series of four posts about how I started to used Docker for all my projects.
+Cet article est le deuxième d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
 
-If you have not read the other ones, you may give them a go before reading this one:
+Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
-* [Act I: Genesis](/2019/08/26/how-I-migrated-almost-all-my-work-to-docker-act-I-genesis.html)
-* [Act II: PHP](/2019/09/02/how-I-migrated-almost-all-my-work-to-docker-act-II-php.html)
-* Act III: Services (current)
-* [Act IV: Project](/2019/09/16/how-I-migrated-almost-all-my-work-to-docker-act-IV-compose.html)
+* [Acte I: Genèse](/fr/2019/08/26/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-I-genese.html)
+* [Acte II: PHP](/fr/2019/09/02/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-II-php.html)
+* Acte III: Services (actuel)
+* [Acte IV: Projet](/fr/2019/09/16/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-IV-compose)
 
-## Reminder of previous post
+## Résumé des épisodes précédents
 
 In the previous post, I gave a lot of examples related to PHP with Docker.
 
