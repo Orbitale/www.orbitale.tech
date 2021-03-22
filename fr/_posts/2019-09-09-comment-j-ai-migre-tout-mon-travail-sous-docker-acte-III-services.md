@@ -17,75 +17,77 @@ Si vous voulez lire les autres articles, vous pouvez vous référer à cet index
 
 ## Résumé des épisodes précédents
 
-In the previous post, I gave a lot of examples related to PHP with Docker.
+Dans l'article précédent, j'ai donné des exemples sur la façon d'utiliser Docker pour PHP.
 
-This third post will explain how we can migrate of our environment **services** with Docker in order to simplify our lives.
+Ce troisième article a pour but d'expliquer comment migrer nos **services** vers Docker dans le but de se simplifier la vie.
 
-## What is a "service"?
+## Un service ?
 
-Databases are the most straightforward example, but this is valid for _any_ type of service, could it be a mailer, a queue system or a cache engine.
+Les bases de données sont l'exemple le plus classique, mais c'est valable pour _n'importe_ quel type de service, que ce soit un service de mail, un système de cache, etc.
 
-Usually with PHP setups we start learning by installing an "*AMP" environment (LAMP for Linux, WAMP for Windows, etc.). They mean "Apache, Mysql and PHP".
+Habituellement, avec les configurations PHP, on commence à coder en installant un environnement "*AMP" (LAMP pour Linux, WAMP pour Windows, etc.). WAMP pour "Windows, Apache, Mysql et PHP".
 
-I will not explain why Apache is a bad solution, there is already a glance of this opinion on my [Apache and PHP-FPM in Windows](/2017/11/11/apache-and-php-fpm-in-windows.html) post, and plenty other resources on the web.
+Je ne vais pas rappeler pourquoi Apache n'est pas la meilleure solution, vous pouvez déjà en avoir un aperçu dans mon article [Apache et PHP-FPM sous Windows](/fr/2017/11/11/apache-et-php-fpm-sous-windows.html), mais aussi sur d'autres ressources sur le web.
 
-The problem with this setup, when using it natively, is that all three services are tied together and if you don't do PHP, you don't care about it and just want a MySQL server for example. With NodeJS you might not need Apache at all. With Ruby, well you need Ruby of course, and you may need a database.
+Le problème avec ce _setup_, lorsque vous l'utilisez en natif, est que les trois services sont liés ensemble et si vous ne faites pas de PHP, vous vous en fichez, et vous voulez peut-être seulement un serveur MySQL. Avec NodeJS, vous n'avez peut-être même pas besoin d'Apache. Avec Ruby, vous avez bien sûr besoin de Ruby, et peut-être Passenger (qui est un serveur web connu des devs Ruby). Dans tous les cas, vous aurez peut-être besoin d'une base de données.
 
-And this is not only for MySQL: one day you may end up adding a RabbitMQ queue, or a Mailcatcher server to debug your e-mails, or a Redis server for your HTTP sessions, well, at some point you need to install something that needs tons of configuration.<br>
-Just like PHP.
+Et ce n'est pas seulement comme ça pour MySQL : un jour, vous pouvez avoir besoin file d'attente RabbitMQ, ou un serveur Mailcatcher pour vos e-mails de dev, ou un serveur Redis pour vos sessions ou du cache, eh bien, à un moment donné, vous devez installer tout un tas de trucs qui ont besoin de tout un tas de coonfiguration.<br>
+Tout comme PHP.
 
-Let us follow the paths of installing services **natively** first, and then we will see how to _dockerize_ them.
+Commençons par regarder l'installation de services **natifs** (natifs à Windows, Linux ou Mac, donc), puis nous verrons comment les _dockeriser_.
 
 ## MySQL
 
-Okay, let's install MySQL on our machine: `apt-get install mysql-server` (or [follow the guide for Windows](https://dev.mysql.com/downloads/mysql/)).
+Allez, on va installer MySQL sur notre machine en [suivant la documentation officielle (en anglais)](https://dev.mysql.com/downloads/mysql/). (vous pouvez aussi installer [MariaDB](https://mariadb.org/download/), un clone de MySQL mais totalement Open Source et pas racheté par Oracle) 
 
-Now, how do you manage the `root` account in order to create other MySQL accounts?
+Maintenant, comment on fait pour le compte `root` pour créer d'autres utilisateurs MySQL ?
 
-Well, it depends on your OS, on the way it is installed, on its version, and can also depend on whether you pick MySQL or MariaDB, etc.
+Eh bien, ça dépend de votre système d'exploitation, de la façon dont il est installé, de sa version, et peut également dépendre du choix entre MySQL ou MariaDB, etc.
 
-Now, let me show you how we can run a MySQL server with one single command using Docker:
+En bref, selon la plateforme, des fois ça se passe bien, des fois moins. Et si vous avez besoin de plusieurs versions de MySQL, bonjour le bazar.
+
+Maintenant, laissez-moi vous montrer comment on peut lancer un serveur MySQL avec une seule commande avec Docker :
 
 ```
 docker run --name=mysql -dit -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql:5.7
 ```
 
-This will start a MySQL server, expose the `3306` port (default for MySQL) and set it up with `root` as root password.
+Cette commande démarre un serveur MySQL, expose le port `3306` (par défaut pour MySQL, mais vous pouvez mettre ce que vous voulez) et le mot de passe pour le compte `root` sera `root`.
 
-Really straightforward.
+Pour Pour l'instant, on peut difficilement faire plus simple.
 
-If you want to execute a MySQL shell inside the container:
+Si vous souhaitez exécuter un shell MySQL à l'intérieur du conteneur :
 
 ```
 $ docker exec -it mysql mysql -uroot -proot
 # ...
-mysql> -- Hey, I'm a SQL query!
+mysql> -- Hey, je suis une requête SQL !
 ```
 
-**Bonuses:**
+**Quelques bonus :**
 
-* You can make it **always available** by appending the `--restart=always` option (be careful with that option though, if it bugs or crashes, you'll need to kill & remove the container and recreate it).
-* You can **store all data** from it in your machine by adding a volume mounted on the container's mysql `datadir`: `--volume /your/mysql/data:/var/lib/mysql` (customize your mysql data dir), making data persistent even if you remove the container. First path (`/your/mysql/data`) is the path on **your machine**. The second path corresponds to the default place where MySQL stores all your data.
-* There also is a solution to not sync data with your machine by creating a custom Docker volume, it might be a bit more advanced, but the advantage is that you can easily remove it with `docker volume rm ...`. I will not give more details, as said it can be a bit more advanced, but just know that it is another possibility.
-* You can start **several other mysql servers** with the same or other versions by changing the exposed port and the container name, like `--name=other_mysql -p 13306:3306`.
-* It's a one-liner command: **make it an alias** like you did before with PHP!
+* Vous pouvez le rendre **toujours disponible** en ajoutant l'option `--restart=always` (attention avec cette option cependant, si elle bug ou plante, vous devrez stopper et supprimer le conteneur et le recréer manuellement).
+* Vous pouvez **conserver toutes les données** de celui-ci dans votre machine en ajoutant un volume monté sur le mysql `datadir` du conteneur : `--volume /votre/mysql/data:/var/lib/mysql` (personnalisez votre "data dir" pour MySQL si besoin), rendant les données persistantes même si vous supprimez le conteneur. Le premier chemin (`/votre/mysql/data`) est le chemin sur **votre machine**. Le deuxième chemin correspond à l'emplacement par défaut où MySQL stocke toutes vos données à l'intérieur du conteneur.
+* Il existe aussi une solution pour conserver les données mais ne pas forcément les stocker définitivement sur votre machine en créant un volume Docker personnalisé. C'est un peu plus avancé, mais l'avantage est que vous pouvez facilement le supprimer avec `docker volume rm ...`. Sauf que le fait de le supprimer facilement est aussi un inconvénient, si vous n'avez pas trop l'habitude. Je ne donnerai pas plus de détails, comme dit, c'est peut-être un peu plus avancé, mais sachez simplement que c'est une autre possibilité.
+* Vous pouvez démarrer **plusieurs autres serveurs mysql** avec la même version ou d'autres versions en changeant le port exposé et le nom du conteneur, comme `--name=other_mysql -p 13306:3306`.
+* C'est une commande à une ligne: **faites-en un alias** comme vous l'avez fait avant avec PHP!
 
 ```
 $ alias mysql_docker_install="docker run --name=mysql -dit -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql:5.7"
 $ alias mysql_docker="docker exec -it mysql mysql -uroot -proot"
 ```
 
-I am even using it in the scripts I add to [my dotfiles](https://github.com/Pierstoval/dotfiles/blob/master/bin/mysqldocker).
+Je m'en sers même dans [mes dotfiles](https://github.com/Pierstoval/dotfiles/blob/master/bin/mysqldocker).
 
 ## PostgreSQL
 
-If we can do it with MySQL, we can do it with PostgreSQL!
+Si on peut le faire avec MySQL, on peut le faire avec PostgreSQL !
 
 ```
 $ docker run --name=postgres -dit -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
 ```
 
-Use it:
+Et à l'usage :
 
 ```
 $ docker exec -it postgres psql -Upostgres -W
@@ -98,13 +100,13 @@ postgres=#
 
 ## Redis
 
-Set it up:
+Configurez-le :
 
 ```
 $ docker run --name=redis -d redis
 ```
 
-And use it:
+Et pour l'utiliser :
 
 ```
 $ docker exec redis redis-cli set my_key any_value
@@ -113,29 +115,29 @@ $ docker exec redis redis-cli get my_key
 any_value
 ```
 
-## Others...
+## Et autres...
 
-You can also use mailcatcher, RabbitMQ, mongodb...
+Vous pouvez également utiliser mailcatcher, RabbitMQ, mongodb...
 
-Almost every service you already know can be used with this method.
+Presque tous les services que vous connaissez déjà peuvent être utilisés avec cette méthode.
 
-## Disadvantages
+## Quelques désavantages
 
-* You must remember some bits of their documentation, especially default port.
-* You may need to start and stop containers manually, unless using `--restart=always` when creating the container.
-* You have to create new containers if you have several apps, or you must use the same container, which can conflict (for example when you use the same keys in Redis in different apps).
-* Persistent storages may need more configuration (volumes, mounts, delegates...).
+* Vous devez vous souvenir de leur documentation, en particulier le port par défaut. Ceci dit, une fois que c'est installé, ou si vous avez déjà l'habitude, pas de problème à ce niveau.
+* Vous devrez peut-être démarrer et arrêter les conteneurs manuellement. Donc il faudra se souvenir de régulièrement lancer `docker start mysql` ou autres. À moins d'utiliser `--restart=always` lors de la création du conteneur.
+* Si vous avez plusieurs applications, vous devrez créer de nouveaux conteneurs, ou vous devrez utiliser le même conteneur, ce qui peut entrer en conflit (par exemple lorsque vous utilisez les mêmes clés dans Redis dans différentes applications).
+* Les stockages persistants peuvent nécessiter plus de configuration (volumes, montages, délégation, etc., voir la documentation de Docker pour tout ça).
 
-## Advantage of all these new containers
+## Avantage de tous ces nouveaux conteneurs
 
-* We can start and stop them with `docker start postgres` or `docker stop postgres`.
-* As long as we don't touch anything on the container (recreate/remove/etc), the data in it will be kept between starts and stops.
-* Some of them can use persistent storages and put them in files, and most docker images documentations explain what is the directory you should mount as a Docker volume in order to store it on your machine so it can be available even if you recreate a new container. You can also use Docker volumes without sharing them in your machine (Docker will save it somewhere else).
-* It can be used by any app, and all you need to do is refer to host `127.0.0.1` and use a port you manually exposed. Be careful not to expose twice the same port to avoid conflicts (Docker does not allow it anyway). Most services will expose their default ports so you can already use a standard (3306 for MySQL, 5432 for PostgreSQL, 6379 for Redis, etc.)
-* It can be aliased and used as a starter when you have a brand new machine and you don't want to set up everything on it (you install Docker and all the rest is only "download & run", no config).
-* You can use the same version as the one you use on your production server, which is really useful for legacy apps.
-* You can create as many containers as you wish with the names you want for several apps on your machine.
+* Nous pouvons rapidement les démarrer et les arrêter avec `docker start postgres` ou` docker stop postgres`.
+* Tant que nous ne touchons à rien sur le conteneur (recréer/supprimer/etc), les données qu'il contient seront conservées entre les démarrages et les arrêts. Même si vous ne montez pas un volume spécifique pour les données.
+* Certains d'entre eux peuvent utiliser des stockages persistants et les mettre dans des fichiers (comme MySQL par exemple), et la plupart des documentations de ces images Docker expliquent quel est le répertoire que vous devez monter en tant que volume Docker afin de stocker les données sur votre machine pour qu'elles soient conservées. Vous pouvez également utiliser les volumes Docker sans les partager sur votre machine (Docker l'enregistrera ailleurs quand même).
+* Ces conteneurs peuvent être utilisés par n'importe quelle application, et tout ce que vous avez à faire est de configurer l'ip `127.0.0.1` dans vos applis et d'utiliser un port que vous avez exposé manuellement. Veillez à ne pas exposer deux fois le même port pour éviter les conflits (Docker ne le permet pas de toute façon). La plupart des services exposeront leurs ports par défaut afin que vous puissiez déjà utiliser un standard (3306 pour MySQL, 5432 pour PostgreSQL, 6379 pour Redis, etc.).
+* Il peut être "aliasé" et utilisé comme point de départ lorsque vous avez une toute nouvelle machine et que vous ne voulez pas tout configurer dessus (vous installez Docker et tout le reste n'est que "download & run", pas de config additionnelle).
+* Vous pouvez utiliser la même version que celle que vous utilisez sur votre serveur de production, ce qui est quand même vachement utile pour les applications _legacy_.
+* Vous pouvez créer autant de conteneurs que vous le souhaitez avec les noms que vous souhaitez pour plusieurs applications sur votre machine. Il est un peu plus compliqué d'installer plusieurs serveurs MySQL ou PostgreSQL sur une même machine, par exemple...
 
-## That's it (for now)
+## C'est tout (pour le moment)
 
-To me, the above disadvantages are not _real_ issues. Some of them can be fixed with Docker Compose, and that's for next post where I will show some examples of fully dockerized projects, using Docker Compose.
+Pour moi, les inconvénients ci-dessus ne sont pas _complètement_ problématiques. Certains d'entre eux peuvent être corrigés avec Docker Compose, et c'est justement le sujet du prochain article dans lequel je montrerai quelques exemples de projets entièrement "dockerisés", à l'aide de Docker Compose.

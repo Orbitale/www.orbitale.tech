@@ -130,7 +130,7 @@ Almost every service you already know can be used with this method.
 
 * We can start and stop them with `docker start postgres` or `docker stop postgres`.
 * As long as we don't touch anything on the container (recreate/remove/etc), the data in it will be kept between starts and stops.
-* Some of them can use persistent storages and put them in files, and most docker images documentations explain what is the directory you should mount as a Docker volume in order to store it on your machine so it can be available even if you recreate a new container. You can also use Docker volumes without sharing them in your machine (Docker will save it somewhere else).
+* Some of them can use persistent storages and put them in files (like MySQL for example), and most Docker images' documentation explain what is the directory you should mount as a Docker volume in order to store it on your machine so it can be available even if you recreate a new container. You can also use Docker volumes without sharing them in your machine (Docker will save it somewhere else).
 * It can be used by any app, and all you need to do is refer to host `127.0.0.1` and use a port you manually exposed. Be careful not to expose twice the same port to avoid conflicts (Docker does not allow it anyway). Most services will expose their default ports so you can already use a standard (3306 for MySQL, 5432 for PostgreSQL, 6379 for Redis, etc.)
 * It can be aliased and used as a starter when you have a brand new machine and you don't want to set up everything on it (you install Docker and all the rest is only "download & run", no config).
 * You can use the same version as the one you use on your production server, which is really useful for legacy apps.
