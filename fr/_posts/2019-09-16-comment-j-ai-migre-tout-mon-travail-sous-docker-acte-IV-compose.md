@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  'How I migrated almost all my work to Docker Act IV: Compose'
+title:  'Comment j''ai migré tout mon travail sous Docker Acte IV : Compose'
 date:   2019-09-16 10:00:00 +0200
 lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-IV-compose
 ---
 
-Cet article est le premier d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
+Cet article est le dernier d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
 
 Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
@@ -17,74 +17,74 @@ Si vous voulez lire les autres articles, vous pouvez vous référer à cet index
 
 ## Résumé des épisodes précédents
 
-In the previous posts, we saw how to use Docker to simplify services creation for many subjects: PHP at first, and other services after, like MySQL, Redis, etc.
+Dans les articles précédents, nous avons vu comment utiliser Docker pour simplifier la création de services pour de nombreux sujets : PHP dans un premier temps, et d'autres services ensuite, comme MySQL, Redis, etc.
 
-This last post will focus on **projects**.
+Ce dernier article portera sur les **projets**.
 
-To help dockerizing a project, here comes our savior: Docker Compose!
+Pour aider à "dockeriser" un projet, voici notre sauveur : Docker Compose !
 
-## Compose? Like, with music?
+## Compose ? Genre, comme en musique ?
 
-Compose, Composer, Symfony, Sonata... Do devs love music? Anyway, get back to the subject.
+Compose, Composer, Symfony, Sonata… Les devs aiment-ils la musique ? Enfin bref, retour au sujet.
 
-Docker Compose is a tool that is provided with Docker in order to create multi-container applications, link them together, and store the app's configuration in one single file: `docker-compose.yaml` (Yeah, I know... Yaml...).
+Docker Compose est un outil fourni avec Docker afin de créer des applications à plusieurs conteneurs, de les lier entre eux, et stocker la configuration de l'application dans un seul fichier : `docker-compose.yaml` (Ouais, je sais… Yaml…).
 
-As said in the first post of this series, I assume you know the basics of Docker Compose.
+Comme indiqué dans le premier article de cette série, je pars du principe que vous connaissez les bases de Docker Compose.
 
-## Compose a base PHP project
+## Composez un petit projet PHP
 
-What does PHP need to work when building a standard project? Most of the time: a web-server (we'll use `nginx`), `php-fpm` (else, no PHP, of course), and possibly a database (we'll use `mariadb`).
+De quoi PHP a-t-il besoin pour créer un projet standard ? La plupart du temps : un serveur Web (nous utiliserons `nginx`), `php-fpm` (sinon, pas de PHP, bien sûr), et éventuellement une base de données (nous utiliserons `mariadb`).
 
-The best example is a Symfony project: if you create a project based on the `symfony/website-skeleton`, it will come with Doctrine ORM, therefore need a relational database (MySQL, MariaDB, PostgreSQL...). 
+Le meilleur exemple est un projet Symfony : si vous créez un projet basé sur le `symfony/website-skeleton`, Doctrine ORM sera installé, donc vous aurez besoin d'une base de données relationnelle (MySQL, MariaDB, PostgreSQL…).
 
-Let's create the base services:
+Créons les services de base :
 
 ```yaml
 version: '3'
 
 services:
-    php: # Here will come something
+    php: # On va en rajouter ici
 
-    database: # Something else here
+    database: # On va rajouter ici aussi
 
-    http: # And here something else again.
+    http: # Et ici aussi
 ```
 
-> **Note:** Remember in the [second post](/2019/09/02/how-I-migrated-almost-all-my-work-to-docker-act-II.html) when I talked about permissions?
-> Please be aware that **any container that will touch your files must handle permissions correctly**. Therefore, for any service you create that may have a shared volume with your machine, you **must** create a base Docker image and use the proposed hack to make sure permissions are handled correctly.
-> Of course, as the hack I added to this post is focused on `php-fpm`, you must adapt it to the script you need to run, be it nodejs, mysql or anything.
+> **Note :** Souvenez-vous dans le [deuxième article](/fr/2019/09/02/comment-j-ai-migre-tout-mon-travail-sous-docker-acte-II-php.html) quand je parlais de permissions ?
+> Rappelez-vous que **tout conteneur qui manipulera vos fichiers doit gérer correctement les permissions**. Par conséquent, pour tout service que vous créez et qui peut avoir un volume partagé avec votre machine, vous **devez** créer une image Docker de base et utiliser le hack proposé pour vous assurer que les permissions sont gérées correctement.
+> Évidemment, vu que le hack que j'ai mis dans cet article utilise `php-fpm`, vous devez l'adapter au script que vous devez exécuter, que ce soit nodejs, mysql ou autre.
 
 ### PHP
 
-Your PHP container will need an image, as it will certainly modify your files, and of course you will need a specific PHP configuration or additional extensions.
+Votre conteneur PHP aura besoin d'une image, et vu qu'il modifiera probablement vos fichiers (le cache notamment), vous aurez besoin d'une config supplémentaire et peut-être d'extensions.
 
-I won't show the Docker image because you already know it after the second post of this series.
+Je ne vais pas montrer l'image Docker, vu que vous devriez l'avoir vue dans le deuxième article.
 
-Here is a sample PHP service I may recommend:
+Voici un exemple de configuration de service PHP :
 
 ```yaml
 services:
     php:
-        build: .            # The PHP dockerfile is better at the root of the project
-        working_dir: /srv   # As we used /srv in the image already
+        build: ./docker/php # Le Dockerfile pour PHP doit être dans ce chemin "./docker/php/Dockerfile"
+        working_dir: /srv   # Vu qu'on utilise déjà "/srv" dans l'image 
         volumes:
-            - ./:/srv       # Necessary, so PHP can use your source code :p
+            - ./:/srv       # Nécessaire, pour que PHP utilise votre code :p
         links:
-            - database      # This is to help you connect to your database later
+            - database      # Ce sera utile pour connecter PHP à votre base de données plus tard
 ```
 
-This could be optimized a bit, but for now it should be fairly enough.
+On pourrait optimiser un peu, mais pour l'instant ça devrait suffire.
 
-Don't forget to create the `docker/php/etc/php.ini` and `docker/php/bin/entrypoint.sh` and add `COPY` statements in your Dockerfile, as exposed in the second post of this series.
+N'oubliez pas de créer les fichiers `docker/php/etc/php.ini` et` docker/php/bin/entrypoint.sh` et d'ajouter les instructions `COPY` pour ces fichiers dans votre `docker/php/Dockerfile`, comme dit dans le deuxième article de cette série.
 
 ### MariaDB
 
-A database service is quite straightforward to set up too:
+Un service de base de données est également assez simple à mettre en place:
 
 ```yaml
 services:
     database:
-        image: mariadb:10.4     # It is a good practice to specify at least the minor version
+        image: mariadb:10.4     # C'est une bonne pratique de noter au moins la version mineure
         volumes:
             - db_data_volume:/var/lib/mysql
 
@@ -92,20 +92,20 @@ volumes:
     db_data_volume: 
 ```
 
-Here we are using a trick: the `db_data_volume` is here to make sure the data is persistent. If we execute `docker-compose down` and remove the container, the data will be kept anyway.
+Ici on utilise une petite astuce vue dans l'article précédent : le volume `db_data_volume` est là pour s'assurer que les données sont persistantes. Si vous exécutez `docker-compose down` et supprimez le conteneur, les données seront quand même conservées.
 
-There is a [nice explanation](https://stackoverflow.com/questions/39175194/docker-compose-persistent-data-mysql/39208187#39208187) on StackOverflow that gives more details about what I'm saying here (remember to upvote the answer if you think it's useful, the author of the answer will thank you).<br>
-For example, answers explain that MySQL has permissions issues whereas MariaDB does not. Good point for the great open-source fork of MySQL :)
+Il y a une [bonne explication](https://stackoverflow.com/questions/39175194/docker-compose-persistent-data-mysql/39208187#39208187) sur StackOverflow donnant plus de détails sur ce sujet (n'oubliez pas de voter pour la réponse si vous pensez que c'est utile, l'auteur de la réponse vous en remerciera).<br>
+Par exemple, les réponses disent que MySQL a des problèmes de permissions, contrairement à MariaDB. Bon point pour le fork Open Source de MySQL :)
 
 ### Nginx
 
-And here comes some difficulties. Don't worry, you won't lose hair ☺.
+Les choses se complexifient ici. Ne vous en faites pas, vous n'allez pas perdre vos cheveux ☺.
 
-Here, we need to set up an `nginx` server.
+On va configurer un serveur `nginx`.
 
-However, a server needs a vhost, so you will have to create it and inject it in your image.
+Cependant, un serveur a besoin d'un _virtual host_, on va donc le créer et l'injecter dans la config.
 
-Step 1: create a Compose service:
+Étape 1 : créer un service :
 
 ```yaml
 services:
@@ -113,18 +113,18 @@ services:
         build: ./docker/nginx/
         working_dir: /srv/
         ports: 
-            - '8080:80'         # You could also use no port and only override it in a "docker-compose.override.yaml" 
+            - '8080:80'         # Vous pouvez également n'utiliser aucun port et ne le remplacer que dans un "docker-compose.override.yaml" 
         links: 
-            - 'php'             # Mandatory, to proxy the request to php-fpm
+            - 'php'             # Obligatoire, pour transmettre la requête à php-fpm
         volumes:
-            - './:/srv'         # Mandatory to serve static files before calling php-fpm
+            - './:/srv/public'  # Obligatoire pour servir les fichiers statiques avant de rediriger vers php-fpm
 ```
 
-Note that such behavior would be the same for any web-server + proxied handler (like php-fpm, Phusion Passenger, or even multiple apps).
+Ceci dit, une config du style sera pareille pour tout serveur Web + proxy (comme php-fpm, Phusion Passenger ou autre).
 
-You could even go further for bigger apps by adding a Traefik, HAProxy or Varnish reverse proxy...
+Vous pouvez même aller plus loin pour des applications plus volumineuses en ajoutant un proxy inverse Traefik, HAProxy ou Varnish…
 
-Step 2: create the Dockerfile for `nginx`:
+Étape 2 : créer le Dockerfile pour `nginx` :
 
 ```dockerfile
 FROM nginx:alpine
@@ -132,120 +132,114 @@ FROM nginx:alpine
 COPY vhost.conf /etc/nginx/conf.d/default.conf
 ```
 
-(here, no problem to use Alpine, because we don't have anything to install)
+(ici, pas de problème pour utiliser Alpine, car il n'y a rien d'autre à installer)
 
-Step 3: create the `nginx` virtual host (check out the comments for more info about directives)
+Étape 3 : créer le vhost `nginx` (lisez les commentaires pour plus d'infos)
 
-> **Note:** This vhost is optimized for a Symfony app, but you could adapt it for any other PHP app.
+> **Note :** Ce vhost est optimisé pour une appli Symfony, mais vous pouvez l'adapter pour d'autres projets PHP.
 
 ```
 server {
     listen 80;
 
-    # This is the public directory of your project that nginx must serve.
+    # C'est le dossier public de votre projet pour les fichiers statiques servis par nginx.
     root /srv/public/;
 
-    # Try to serve file directly, fallback to rewrite.
+    # Essaye de servir le fichier s'il existe, sinon redirige vers la règle "@rewriteapp".
     location / {
         try_files $uri @rewriteapp;
     }
 
-    # Rewrite all to index.php. This will trigger next location.
+    # Réécrit tout vers "index.php". Ça va matcher la prochaine instruction "location"
     location @rewriteapp {
         rewrite ^(.*)$ /index.php/$1 last;
     }
 
-    # Redirect everything to the php container
+    # Redirige tout vers le conteneur PHP
     location ~ ^/index\.php(/|$) {
         include fastcgi_params;
 
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        # try_files resets $fastcgi_path_info, see http://trac.nginx.org/nginx/ticket/321, so we use the if instead
+        # try_files réinitialise $fastcgi_path_info, voir http://trac.nginx.org/nginx/ticket/321, on utilise "if" à la place.
         fastcgi_param PATH_INFO $fastcgi_path_info if_not_empty;
-
         if (!-f $document_root$fastcgi_script_name) {
-            # check if the script exists
-            # otherwise, /foo.jpg/bar.php would get passed to FPM, which wouldn't run it as it's not in the list of allowed extensions, but this check is a good idea anyway, just in case
+            # Vérifie si le script existe
+            # Sans ça, "/foo.jpg/bar.php" serait passé à FPM, ce qui ne fonctionnerait pas parce qu'il n'est pas dans la liste des extensions de fichier autorisées. Mais cette vérification est utile au cas où.
             return 404;
         }
 
-        # The host should be the name of the PHP container,
-        # and the port must be the php-fpm's one,
-        # which is usually 9000 as it's php-fpm's default.
+        # Le host devrait être le même que le nom du conteneur PHP,
+        # et le port doit être celui de PHP-FPM dans le conteneur,
+        # soit 9000 en général, vu que c'est le port par défaut de PHP-FPM.
         fastcgi_pass php:9000;
     }
 
-    # Return 404 for all other php files not matching the front controller.
-    # This prevents access to other php files you don't want to be accessible.
+    # Retourne une erreur 404 pour tout autre fichier PHP qui ne matche pas le front controller "index.php".
+    # Ça permet d'éviter d'accéder à des fichiers PHP non désirés.
     location ~ \.php$ {
         return 404;
     }
 }
 ```
 
-As you can see, configuring Nginx costs a bit more. It is quite heavy, but I think it's mandatory to cover all cases.<br>
-Comments in this config file are important, so read them, it'll help you understand why it's here.
+Comme on peut le voir, la configuration de Nginx est un peu plus compliquée. C'est assez lourd, mais je pense qu'il vaut mieux couvrir tous les cas.<br>
+N'oubliez pas de lire les commentaires dans la config pour mieux comprendre ce que tout ça veut dire.
 
-[Okty.io](https://okty.io/), a generator for Docker Compose boilerplates, has a [Symfony 4 template](https://okty.io/generator/load/symfony4), and its `nginx` Dockerfile is lighter, but I'm not sure it would be 100% compatible with all features.
+Une fois fait, notre configuration est terminée !
 
-Again, it's just a proposal, an example, so you may do whatever you like 😃.
+## Et ensuite ?
 
-After that, the boilerplate is ready!
+Résumé :
 
-## So what now?
+On a créé plusieurs **services** Docker Compose, basés sur des **images Docker** (certaines de notre cru, d'autres déjà prédéfinies), qui vont créer des **conteneurs** pour lancer nos divers serveurs :
 
-Summary:
+* Un service `php`, l'instance de `php-fpm`
+* Un service `database` pour le serveur MariaDB
+* Un service `http` pour un serveur Nginx, notamment pour les fichiers statiques dans le dossier `public/`
 
-* We created a `php` service that will create a container for a PHP image of your own, and it will serve a `php-fpm` instance
-* We created a `database` service that will create container for a MariaDB image, it will simply serve a `mariadb` server
-* We created an `http` service that will create a container for an Nginx image, it will serve an `nginx` server that will serve files from the `public/` project directory, and proxy all other requests to the `php` container.
+C'est à mes yeux le plus simple pour le moment pour un projet PHP.
 
-This is the simplest approach for a PHP project.
+Et maintenant ?
 
-So what now?
+Eh bien on code !
 
-Well, start coding, of course!
+Ou alors vous pouvez lire jusqu'à la fin 😉.
 
-Or wait a little and read until the end 😉.
+On peut désormais ajouter pas mal de choses :
 
-We can now add many more things:
-
-* A `redis` service and use it in our application for sessions, cache...
-* A `mailcatcher` service to debug emails
-* A `rabbitmq` service to serve and handle queues
-* A `traefik` proxy to natively serve HTTPS requests
-* A `varnish` reverse proxy for HTTP caching
-* A `blackfire` service to serve as blackfire agent
-* A `nodejs` service to generate our web assets
+* Un serveur `redis` pour stocker les sessions PHP ou du cache
+* Un service `mailcatcher` pour debug les envois de mails
+* Un service `rabbitmq` pour des files d'attente
+* Un proxy `traefik` pour les requêtes HTTPS (c'est plus simple avec ce genre d'outil qu'avec Nginx)
+* Un reverse proxy `varnish` pour le cache HTTP (oui, même en dev ça peut être utile !)
+* Un agent `blackfire` pour faire du profiling
+* Un service `nodejs` pour générer vos assets
 * Etc.
 
-## Bonus point: make this much handier with a Makefile
+## Bonus : Rendre tout ça encore plus simple avec un Makefile
 
-I really like Makefiles. And they work on Windows! (Yes, they do! Read until the end to know how)
+J'adore les Makefiles. Et ça fonctionne même sous Windows ! (Eh oui, mais lisez jusqu'à la fin pour savoir comment)
 
-A `Makefile` is a file that define recipes for the famous `make` tool (that is here since 1977, just to say).<br>
-We usually place it at the root of the project.
 
-One `make` command may contain three things:
+Un `Makefile` est un fichier qui définit des **recettes** (_recipes_ en anglais, à prononcer "ré-ci-piz") pour le célèbre outil `make` (qui existe depuis 1977, au fait).<br>
+On le place en général à la racine du projet.
 
-* A target
-* A recipe
-* Optional dependencies (on other targets)
+Une recette contient en général trois éléments :
 
-The target will be the command you have to execute. It can be a file or an abstract name.
+* Une **cible** (_target_), c'est le nom de la commande qui sera exécutée par `make`. Ce peut être le nom d'un fichier, ou un nom personnalisé.
+* Une **recette** (_recipe_), c'est le code à exécuter avec le shell configuré par `make` (par défaut, `sh` ou `bash` selon votre système d'exploitation).
+* Des **dépendances** facultatives (sur d'autres **cibles**)
 
-The recipe is the list of commands to execute.
+Je ne vais pas en dire trop sur `make`, car c'est un outil très puissant et très personnalisable, et ce sera peut-être l'objet d'un autre article. 
 
-I will not say more about Make, 
-
-### A base Makefile for any Docker Compose project
+### Un Makefile de base pour un projet PHP avec Docker Compose
 
 ```makefile
 
-# This var will be used to tell the Makefile where to find docker-compose's binary.
-# This is something you should do for anything that may be executed by several recipes,
-# like when you need to execute PHP, MySQL, etc.
+# Cette variable sera utilisée pour indiquer au Makefile où trouver l'exécutable de docker-compose.
+# C'est très utile pour tout ce qui peut être exécuté par plusieurs recettes,
+# comme lorsque vous devez exécuter PHP, MySQL, etc.
 DOCKER_COMPOSE = docker-compose
 
 ##
@@ -255,8 +249,9 @@ DOCKER_COMPOSE = docker-compose
 
 .DEFAULT_GOAL := help
 help: ## Show this help
-	# Don't really mind how this command works, just know that it is here to 
-	# display a beautiful list of all Make targets for this Makefile.
+	# Ne vous inquiétez pas vraiment du fonctionnement de cette commande,  
+	# sachez simplement qu'elle est là pour afficher une jolie liste de 
+	# toutes les cibles de ce Makefile.
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 .PHONY: help
 
@@ -287,29 +282,29 @@ stop: ## Stop the project
 .PHONY: stop
 ```
 
-Some notes about this Makefile:
+Quelques notes sur ce Makefile:
 
-* Run the `make help` command, it will execute the `help` target that shows a nice list of all `make` commands you can execute on this project.
-* The `.PHONY:` statement tells `make` to always execute this target, even if the target's file is up to date. This is needed for targets that _may_ correspond to a file. It is inherent of `make`'s behavior: if the target **is** a filename, `make` will save its last modify date, and if it's up-to-date, `make` will not execute the recipe. That's why I'm using `.PHONY`, to be sure `make` always execute the recipe, regardless of the target being an up-to-date file or not.
-* If you prefix a command in the recipe with `@`, it will not display the full command instruction. If you don't, `make` shows the full command instruction in the terminal when executing it. The `@` prefix will then make the command-line a bit lighter & cleaner.
-* If you prepend the `-` character to a command in the recipe, it will execute all the next commands even if the command returned a non-zero exit code (a.k.a "if it failed"). 
-* The reason why we have two `install` or `reset` targets is because it's handier to write the comment AND add the dependencies to this target (because `install` depends on `build` and `start` for instance). We could remove the two commands and append the comment right after the dependencies, it would work the same way, but it's much handier like this, at least for readability inside the Makefile itself.
+* Exécutez la commande `make help`, elle exécutera la cible `help` qui affiche une jolie liste de toutes les commandes `make` que vous pouvez exécuter sur ce projet.
+* L'instruction `.PHONY:` indique à `make` de toujours exécuter cette cible, même si le fichier de la cible est à jour. Ceci est nécessaire pour les cibles qui _peuvent_ correspondre à un fichier. C'est inhérent au comportement de `make` : **si la cible est un nom de fichier**, `make` enregistrera sa dernière date de modification, et si elle est à jour, `make` n'exécutera pas la recette. C'est pourquoi j'utilise `.PHONY`, pour être sûr que` make` exécute toujours la recette, que la cible soit un fichier à jour ou non.
+* Si vous préfixez une commande dans la recette avec `@`, elle n'affichera pas l'instruction de commande complète dans la sortie du terminal. Si vous ne le faites pas, `make` affiche l'instruction de commande complète dans le terminal lors de son exécution. Le préfixe `@` rendra alors la ligne de commande un peu plus claire et plus propre.
+* Si vous ajoutez le caractère `-` à une commande dans la recette, elle exécutera toutes les commandes suivantes même si la commande a renvoyé un code de sortie différent de zéro (a.k.a "si elle a renvoyé une erreur").
+* La raison pour laquelle nous avons deux cibles `install` ou `reset` est parce qu'il est plus pratique d'écrire le commentaire ET d'ajouter les dépendances à cette cible (car `install` dépend de `build` et `start` par exemple). Nous pourrions supprimer les deux commandes et ajouter le commentaire juste après les dépendances, cela fonctionnerait de la même manière, mais c'est beaucoup plus pratique comme ça, au moins pour la lisibilité à l'intérieur du Makefile lui-même.
 
-### Bottom-note: using `make` on Windows
+### Note : utiliser `make` sous Windows
 
-I tried several already-compiled `make` binaries on Windows, but the only one that satisfied me (and that is the **latest** version of GNU Make) is the one provided by the [Ruby Devkit](https://rubyinstaller.org/downloads/).
+J'ai essayé plusieurs exécutables `make` déjà compilés sur Windows, mais le seul qui m'a satisfait (et aussi parce que c'est la **dernière** version de GNU Make) est celui fourni par le [Ruby Devkit](https://rubyinstaller.org/downloads/).
 
-The drawback is that we have to install Ruby... But it also comes with tons of UNIX tools (awk, sed, grep, etc.), so I don't mind, it's good anyway 🤠. 
+L'inconvénient est qu'il faut installer Ruby… Mais il est également livré avec des tonnes d'outils UNIX (awk, sed, grep, etc.), donc ça ne me dérange pas, c'est bon quand même 🤠.
 
 ## Conclusion
 
-Docker is not mandatory, but it comes with lots of advantages.
+Docker n'est pas obligatoire, mais il présente de nombreux avantages.
 
-Thanks to Docker Compose, I will spend a bit more time on setting up the project, but way less configuring my entire machine.<br>
-And this config will be shared with all people working on the project.
+Grâce à Docker Compose, je passe un peu plus de temps à configurer le projet, mais beaucoup moins à configurer toute ma machine.<br>
+Et cette configuration sera partagée avec toutes les personnes travaillant sur le projet. C'est surtout ça qui est important.
 
-I think it's really cool.
+Je pense que c'est cool :)
 
-And you? 😉
+Et vous ? 😉
 
-Thanks for reading! 
+Merci d'avoir lu jusqu'ici !

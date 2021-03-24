@@ -6,7 +6,7 @@ lang: fr
 lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-II-php
 ---
 
-Cet article est le premier d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
+Cet article est le deuxième d'une série de quatre articles sur la migration de quasiment tous mes projets sous Docker.
 
 Si vous voulez lire les autres articles, vous pouvez vous référer à cet index :
 
