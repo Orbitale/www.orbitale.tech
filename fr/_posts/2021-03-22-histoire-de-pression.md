@@ -6,7 +6,7 @@ lang: fr
 lang-ref: pressure-story
 ---
 
-Je lisais récemment un super article de [@jesuisundev](https://twitter.com/jesuisundev) intitulé ["C'est la faute du développeur"](https://twitter.com/jesuisundev/status/1373931209357672451).
+Je lisais récemment un super article de [@jesuisundev](https://twitter.com/jesuisundev) intitulé ["C'est la faute du développeur"](https://www.jesuisundev.com/la-faute-du-developpeur/).
 
 Super article, vous devriez le lire, c'est vraiment cool.
 
