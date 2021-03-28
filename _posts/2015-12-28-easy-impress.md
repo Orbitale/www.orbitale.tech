@@ -2,6 +2,8 @@
 layout: post
 title:  "EasyImpress"
 date:   2015-12-28 18:48:24 +0200
+lang: en
+lang-ref: easy-impress
 ---
 
 EasyImpress is a PHP application developed with Symfony framework, it allows you to realize beautiful 3D sliders using

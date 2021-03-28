@@ -2,6 +2,8 @@
 layout: post
 title:  'What is a Controller?'
 date:   2019-07-19 02:01:09 +0200
+lang: en
+lang-ref: what-is-a-controller
 ---
 
 In the programming industry we often bang our heads on walls by talking about things instead of coding. Like "best practices", "best language", "best IDE", etc.
@@ -87,7 +89,7 @@ app_lucky_number:
     controller: App\Controller\LuckyController::number
 ```
 
-**State: a controller is Note a class**
+**State: a controller is not a class**
 
 When we look at it, a controller is just a **callable**.
 

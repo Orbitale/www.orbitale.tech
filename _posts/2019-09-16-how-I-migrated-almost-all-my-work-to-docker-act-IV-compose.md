@@ -2,6 +2,8 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act IV: Compose'
 date:   2019-09-16 10:00:00 +0200
+lang: en
+lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-IV-compose
 ---
 
 This post is the last one of a series of four posts about how I dockerized all my projects.

@@ -2,6 +2,8 @@
 layout: post
 title:  'Immutable dates with proper timezone with EasyAdmin and Symfony Forms'
 date:   2019-10-28 23:09:27 +0100
+lang: en
+lang-ref: proper-dates-with-easyadmin
 ---
 
 Symfony is the best PHP framework I ever experienced.

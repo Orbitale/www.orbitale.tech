@@ -2,6 +2,8 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act I: genesis'
 date:   2019-08-26 10:00:00 +0200
+lang: en
+lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-I-genesis
 ---
 
 This post is the first of a series of four posts about how I started to use Docker for all my projects.

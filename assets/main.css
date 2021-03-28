@@ -473,3 +473,24 @@ pre {
   width: 15px;
   height: 15px;
 }
+
+/**
+ * Custom overrides
+ */
+
+hr {
+  margin: 10px 0;
+  border: 0 transparent;
+  border-top: solid 1px #ddd;
+}
+
+.lang-options {
+    margin-top: 10px;
+}
+
+.lang-options ul {
+    list-style: inside none;
+    margin-left: 10px;
+    margin-bottom: 0;
+    display: inline-block;
+}

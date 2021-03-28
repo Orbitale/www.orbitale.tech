@@ -2,6 +2,8 @@
 layout: post
 title:  'Array options: a solution with Symfony OptionResolver'
 date:   2019-08-18 07:30:42 -0500
+lang: en
+lang-ref: array-options-a-good-solution-with-symfony-optionsresolver
 ---
 
 I have to use the PHPWord library to generate a docx file with 748 pages with a very specific page format, and tons of other requirements.<br>

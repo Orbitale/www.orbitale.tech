@@ -22,6 +22,8 @@ url: "http://www.orbitale.io"
 twitter_username: pierstoval
 github_username:  pierstoval
 
+author: Alex Rock
+
 # Build settings
 markdown: kramdown
 theme: minima

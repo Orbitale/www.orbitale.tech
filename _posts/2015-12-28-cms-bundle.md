@@ -2,6 +2,8 @@
 layout: post
 title:  "CmsBundle"
 date:   2015-12-28 19:08:22 +0200
+lang: en
+lang-ref: cms-bundle
 ---
 
 ## You've never seen a CMS so simple with Symfony.

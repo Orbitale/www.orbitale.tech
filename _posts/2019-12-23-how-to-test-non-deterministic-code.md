@@ -2,6 +2,8 @@
 layout: post
 title:  'How to test non-deterministic code?'
 date:   2019-12-24 12:30:01 +0200
+lang: en
+lang-ref: how-to-test-non-deterministic-code
 ---
 
 > **Note:** This post is a translation of another post I wrote in french for the [AFSY's Advent Calendar here](https://afsy.fr/avent/2019/19-comment-tester-du-code-non-deterministe). Enjoy!

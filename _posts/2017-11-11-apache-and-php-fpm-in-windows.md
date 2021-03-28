@@ -2,6 +2,8 @@
 layout: post
 title:  'Apache and PHP-FPM in Windows'
 date:   2017-11-11 13:14:15 +0100
+lang: en
+lang-ref: apache-and-php-fpm-in-windows
 ---
 
 We see _a lot_ of research over the internet to make Apache & PHP-FPM work on windows.
@@ -245,7 +247,7 @@ Then, you will have to **remove the `SetHandler` config from `httpd.conf`** and 
 
 That's it, now you can enjoy having multiple PHP versions!
 
-⚠️ If you're using Apache 2.4.25+, you **must** specify this directive.
+⚠️ If you're using Apache 2.4.25+, you **must** specify this directive:
 
 ```apacheconfig
 ProxyFCGIBackendType GENERIC

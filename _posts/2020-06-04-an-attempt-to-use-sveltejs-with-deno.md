@@ -2,6 +2,8 @@
 layout: post
 title:  'An attempt to use SvelteJS with Deno'
 date:   2020-06-04 11:20:56 -0500
+lang: en
+lang-ref: an-attempt-to-use-sveltejs-with-deno
 ---
 
 > First, sorry that this post is so disorganized, I did not find enough energy to make a better post architecture.

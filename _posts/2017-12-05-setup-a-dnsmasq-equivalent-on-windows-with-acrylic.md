@@ -2,6 +2,8 @@
 layout: post
 title:  'Setup a dnsmasq equivalent on Windows (with Acrylic)'
 date:   2017-12-05 15:37:59 +0100
+lang: en
+lang-ref: setup-a-dnsmasq-equivalent-on-windows-with-acrylic
 ---
 
 Last modified: 2018-08-27 09:56

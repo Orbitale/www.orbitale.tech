@@ -2,13 +2,19 @@
 layout: post
 title:  "Manage FOSUser in EasyAdmin"
 date:   2015-12-28 22:27:20 +0200
+lang: en
+lang-ref: manage-fosuser-in-easyadmin
 ---
 
-Last modified: 2018-08-27 09:56
+Last modified: 2020-08-19
+
+Edit (2020-08-19): This post is valid for EasyAdmin 1 and 2, but not for version 3+ since the creator completely changed how the config is written.
 
 Edit (2018-08-27): FOSUserBundle is not the recommended way of managing users. If you want a nice user manager, please
 write it yourself to avoid FOSUser's inheritance and overriding hell. If you want a nice course about it, check out
 [KNPUniversity's Symfony Security screencast](https://knpuniversity.com/screencast/symfony-security) for best practices.
+
+---
 
 [EasyAdmin](https://github.com/javiereguiluz/EasyAdminBundle) is a powerful backend generator, which creates magic with
 a simple `Yaml` file.

@@ -2,6 +2,8 @@
 layout: post
 title:  'Setting up together PHPStorm, PHPUnit, Xdebug and Docker'
 date:   2019-11-16 23:31:05 +0100
+lang: en
+lang-ref: setting-up-together-phpstorm-phpunit-xdebug-and-docker
 ---
 
 Here, I'm going to talk about configuring XDebug with PHPStorm and Docker.

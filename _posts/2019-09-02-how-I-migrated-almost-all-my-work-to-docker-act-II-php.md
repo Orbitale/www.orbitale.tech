@@ -2,6 +2,8 @@
 layout: post
 title:  'How I migrated almost all my work to Docker Act II: PHP'
 date:   2019-09-02 10:00:00 +0200
+lang: en
+lang-ref: how-I-migrated-almost-all-my-work-to-docker-act-II-php
 ---
 
 This post is the second of a series of three posts about how I started to used Docker for all my projects.

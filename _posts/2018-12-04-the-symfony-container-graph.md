@@ -2,6 +2,8 @@
 layout: post
 title:  'The Symfony container graph'
 date:   2018-12-04 20:31:46 +0100
+lang: en
+lang-ref: the-symfony-container-graph
 ---
 
 We may sometimes forget about the fact that we have classes all over the place in our PHP/Symfony projects.

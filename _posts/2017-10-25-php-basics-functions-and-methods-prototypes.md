@@ -2,6 +2,8 @@
 layout: post
 title:  '[PHP Basics] Functions and methods prototypes'
 date:   2017-10-25 11:29:57 +0200
+lang: en
+lang-ref: php-basics-functions-and-methods-prototypes
 ---
 
 A PHP function is made of three things:
@@ -26,7 +28,11 @@ Here, no type, but signature is using 3 arguments.
 
 Full example:
 ```php
-public function loginAction(Request $request, string $username, bool $useReferer = true): Response
+public function loginAction(
+    Request $request,
+    string $username,
+    bool $useReferer = true
+): Response
 {
     // ...
 }

@@ -2,6 +2,8 @@
 layout: post
 title:  "I'm going (free)lance!"
 date:   2020-03-06 09:00:00 +0200
+lang: en
+lang-ref: I-m-going-free-lance
 ---
 
 Last modified: 2020-03-15 20:01

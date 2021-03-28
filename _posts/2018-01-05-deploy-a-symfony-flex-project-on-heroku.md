@@ -2,6 +2,8 @@
 layout: post
 title:  'Deploy a Symfony Flex project on Heroku'
 date:   2018-01-05 15:51:59 +0100
+lang: en
+lang-ref: deploy-a-symfony-flex-project-on-heroku
 ---
 
 > Last modified: 2018-08-27 09:56
