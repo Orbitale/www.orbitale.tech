@@ -38,3 +38,49 @@
     {% endcomment %}
   </div>
 </header>
+
+<div class="lang">
+    {%- unless page.lang == "fr" or page.lang == "en" -%}
+        {%- assign currentLang = "en" -%}
+    {%- else -%}
+        {%- assign currentLang = page.lang -%}
+    {%- endunless -%}
+
+    {%- if page.layout != 'home' -%}
+        {%- assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' -%}
+        {%- if posts.size == 0 -%}
+            {%- assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' -%}
+        {%- endif -%}
+        {%- if posts.size > 1 -%}
+            <div class="wrapper lang-options">
+                <em>{{ site.data.translations['differentPostLanguage'][page.lang] }}:</em>
+                <ul>
+                    {%- for post in posts -%}
+                        {%- if post.lang != currentLang -%}
+                            <li>
+                                <a href="{{ site.base-url }}{{ post.url }}" class="{{ page.lang }}" title="View in {{ site.data.languages[post.lang].label }}">
+                                {{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}
+                                </a>
+                            </li>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </ul>
+            </div>
+        {%- endif -%}
+    {%- else -%}
+        <div class="wrapper lang-options">
+            <em>{{ site.data.translations['differentLanguage'][currentLang] }}:</em>
+            <ul>
+                {%- for lang in site.data.languages -%}
+                    {%- if lang[0] != currentLang -%}
+                        <li>
+                            <a href="{{ site.base-url }}/{{ lang[0] }}" class="{{ lang[0] }}" title="View in {{ lang[1].label }}">
+                                {{ lang[1].icon }} {{ lang[1].label }}
+                            </a>
+                        </li>
+                    {%- endif -%}
+                {%- endfor -%}
+            </ul>
+        </div>
+    {%- endif -%}
+</div>
