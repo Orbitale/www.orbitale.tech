@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  'Un cas de capitalisme dans le monde de l open source'
+title:  "Un cas de capitalisme dans le monde de l'open source"
 date:   2019-04-19 17:16:38 +0200
 lang: fr
 lang-ref: capitalism-in-the-open-source-world
