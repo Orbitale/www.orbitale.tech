@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  'Capitalisme dans le monde de l''Open Source'
+title:  'Capitalism in the open-source world'
 date:   2019-04-19 17:16:38 +0200
 lang: en
 lang-ref: capitalism-in-the-open-source-world
@@ -8,305 +8,283 @@ lang-ref: capitalism-in-the-open-source-world
 
 Last modified: 2019-05-21 12:38
 
-Une bonne expression de la façon dont un esprit capitaliste peut être introduit dans l'Open Source :
+A good representation of how the capitalism spirit can be introduced in FOSS:
 
-**Réinventer la roue, mais "mieux".** 
+**Reinvent the wheel, but "better".**
 
-Je pensais que c'était juste un problème dans le monde du Javascript (d'où la tonne d'outils qui font la même chose. Vous avez déjà cherché [uglify sur npm](https://www.npmjs.com/search?q=uglify) ?), mais ça arrive aussi en PHP (et dans d'autres langages, au final).
+I thought it was only a problem in the Javascript world (Hence the tons of packages that do the same thing. Have you ever searched for [uglify on npm](https://www.npmjs.com/search?q=uglify)?), but it is also slowly coming in PHP too.
 
-> Je n'attends pas de réponse du style _"C'est Open Source, on fait ce qu'on veut"_, ou _"Si t'aimes pas, t'as qu'à pas t'en servir"_. Le but de cet article est ailleurs. Vous pouvez lire jusqu'au bout.
+> Don't tell me _"It's open-source, we do whatever we want"_, or _"Just don't use it if you don't like it"_. The point of this post is precisely elsewhere. Just read to the bottom.
 
-# L'état (totalement subjectif) de l'Open Source
+# The (totally subjective) state of FOSS
 
-Quand un outil est utilisé par beaucoup de monde, on trouve parfois des détracteurs qui le trouvent "nul". 
-Pourquoi "nul" ? Vous avez 4 heures (ou années) de débat pour en discuter. Ce que je veux dire, c'est que **tout le monde a un moment donné peut avoir des arguments pour améliorer quelque chose**.
-L'Open Source, c'est aussi cet engagement.
+When a package is widely used by many people, sometimes people complain that it's "bad".
+Why is it bad? You have 4 hours (or years) of debate to discuss. But the point is: **everybody have arguments to improve something**.
+FOSS is about this engagement, sometimes.
 
-Un cas où ça s'applique peu : les frameworks.
+> Small reminder for those who don't know: FOSS means Free Open Source Software
 
-Par exemple, l'éternel débat "Symfony vs Laravel". Ce débat n'a aucun sens, parce que la plupart des arguments sont subjectifs et dépendent de ce que les gens estiment être "les bonnes pratiques". Chacun a son avis, et pour chaque avis il y a un détracteur. Et dans le cas d'un framework aussi utilisé que Symfony ou Laravel, l'impact peut être très large.
+An example which is not much applicable: frameworks.
 
-Non, ici je parle plutôt des BIBLIOTHÈQUES (qu'on va abréger ici en _lib_).
+For example: the endless debate "Symfony vs Laravel". It is pointless because most of the arguments are subjective and depend on whatever people think of "how to do programming". And the impact is too large.
 
-Une lib c'est un outil qui devrait être "réutilisable dans tout l'écosystème". Que ce soit une lib en C, un module Javascript, une Gem en Ruby, un package PHP, ou une extension PHP.
-Du coup au bout d'un moment, certaines libs deviennent populaires, même dans plusieurs frameworks.
+No, it's applicable to LIBRARIES.
 
-C'est le cas de certains : [League/Flysystem](https://github.com/thephpleague/flysystem ), assez populaire (avec [Gaufrette](https://github.com/KnpLabs/Gaufrette) mais moins célèbre), ou encore [HTMLPurifier](http://htmlpurifier.org/), et d'autres milliers de libs.
+A library is something that should be "reusable across the whole ecosystem". Could it be a C library, a Javascript module, a Ruby gem or a PHP package (or PHP extension).
+Therefore, after a long time, some libraries become popular. Even across many frameworks.
 
-Ces packages existent depuis un moment, ils sont tous très bons, mais ils sont vieux, du coup dans un tel cas, la maintenance peut être complexe.
+This is the case for some: [League/Flysystem](https://github.com/thephpleague/flysystem ), which is very popular (alongside with [Gaufrette](https://github.com/KnpLabs/Gaufrette) but it is much less popular), also [HTMLPurifier](http://htmlpurifier.org/), and so on.
 
-Du coup, on fait quoi ?
+These packages have a long lifespan and they're all good, it's just that they're old, and debug or maintenance can be tricky.
 
-Je pense qu'il y a 2 solutions :
+So, what to do?
 
-1. Recréer quelque chose de "mieux"
-2. Améliorer l'existant
+Well, two solutions:
 
-## Créer quelque chose de nouveau
+1. Rebuild something new
+2. Refactor it
 
-La solution 1 présente quelques facilités :
+## Rebuild something new
 
-> « Hey, cette lib est vieille, j'en ai fait une nouvelle, elle fait la même chose, mais c'est plus joli ! »
+Solution 1 seams easier:
 
-On pourrait penser que c'est intéressant, voilà quelques raisons :
+> « Hey, this package is old, I made a new one, it does the same thing, but it is prettier! »
 
-* _Clean code_ dès le départ, yep. C'est une bonne stratégie, parce qu'on enlève directement ce qui est vieux et mauvais, avec un code tout beau tout neuf, une nouvelle documentation toute fraîche. En fonction de qui s'en occupe, on peut avoir un tout nouveau package avec une nouvelle équipe de mainteneurs (ou juste une seule personne), et une opinion différente des "bonnes pratiques". Certaines personnes préfèrent aussi cette solution parce qu'elle pensent que "la compétition est bénéfique".
-* On peut supprimer toutes les vieilles fonctionnalités qui ne sont plus utilisées, notamment si le langage a beaucoup évolué (par exemple, de PHP 5 à PHP 8, ou de Python 2 à 3, etc.).
-* On peut se concentrer sur des "nouvelles pratiques". Si le langage permet maintenant le typage strict, on peut le rajouter partout. Si c'est un langage de POO, on peut arrêter d'utiliser des fonctions globales et commencer à utiliser des objets. Avec PHP, on peut commencer à utiliser Composer et l'autoload, etc.
+We may think it's interesting, and here are a few reasons why:
 
-Quelques inconvénients cela dit :
+* Clean code first, yeah. Can be a really nice strategy because you completely drop what is old and bad, and get a fresh codebase, new documentation. Depending on who does this, you may have a totally new package with a new team or maintainers (or just one maintainer), and have a different opinion of "good code".
+  Some people would say "competing is nice".
+* You can also drop old features that become unused, especially if the language has drastically evolved.
+* You can focus on "new practices". If the language allows strict type, you can strict type everything. If it allows OOP, you can use objects everywhere instead of plain global functions. Benefits from autoloading if it wasn't available
+  before, etc.
 
-* Évidemment, on peut en arriver à faire des copier/coller de l'ancien code et l'adapter, ou tout réécrire à partir de zéro, ce qui peut être plus long (genre _une année_ ou plus).
-* Si c'est un nouvel outil, vous n'aurez peut-être pas tout de suite de la popularité, et beaucoup de gens ne migreront pas sur l'outil, soit parce qu'ils n'aiment pas l'idée, soit à cause du point suivant:
-* Le nouvel outil ne sera pas aussi bien mis en situation et éprouvé que l'ancien, donc vous aurez probablement beaucoup de tâches de maintenance au début, et n'aurez peut-être pas ce temps à dispo parce que la communauté d'un nouvel outil est forcément réduite.
+Some disadvantages though:
 
-Tout cela peut légèrement se corriger si jamais vous êtes déjà une personne célèbre (si vous avez créé un framework très populaire, par exemple).
+* Of course, you probably end up with either "copy/paste old code and adapt/review" or "recode from scratch", which can take longer (let's say, _a year_).
+* If it's a new package, you won't have the same "adoption" and many people won't migrate because of the cost of migration, because they don't like it, or because of the next point:
+* It won't be as battle-tested as the popular one, so you will likely have a big maintenance to do, and will need much time to implement new features because of the lack of community.
 
-Il y a d'autres raisons qui me font penser que ce n'est pas la meilleure idée, j'en parle plus loin (est-ce que j'ai déjà dit que cet article est subjectif ?).
+There are also more reasons why I think it is a bad idea. I talk about this below (did I say that this post is subjective?).
 
-Pour jouer l'avocat du diable face à mes propres dires, j'ai au moins un "bon" exemple d'une lib totalement réécrite de zéro :<br>
+However, to play the devil's advocate against my own arguments, I have at least one good example of a rebuilt package:<br>
 [Swiftmailer](https://swiftmailer.symfony.com/).<br>
-Cet outil utilise énormément d'anciennes (parfois mauvaises) pratiques, et même s'il fonctionne bien, pas mal de problématiques d'architectures freinent la maintenance et empêchent l'usage de ce qu'une lib d'envoi de mail moderne devrait pouvoir faire (par exemple, envoi asynchrone, appels HTTP plutôt que SMTP, configuration d'API diverses pour des services tiers d'envoi de mail, etc.).
+The package uses so many old and bad practices that even if it works well, its "design flaws" prevent some new usages of what a "mailer" lib should have (async, only HTTP calls instead of SMTP, better and easier API and configuration, etc.).
 
-Ce sont d'ailleurs les raisons qui ont fait que cette lib a été totalement réécrite sous la forme de [Symfony Mailer](https://github.com/symfony/mailer).<br>
-Il n'y a pas de "facilité de migration" spécifique, car l'architecture a vraiment changé, donc c'est trop compliqué. Le temps de migration dépendra surtout d'à quel point vous utilisez les fonctions du cœur de Swiftmailer, les surcharges que vous faites, etc.
+These are the reasons why it is completely rewritten into [Symfony Mailer](https://github.com/symfony/mailer).
+There is no migration path because the change is so big that there can be no clean migration path, at least not without many years of wait and maintenance.
+To me, rewriting Swiftmailer from scratch was a perfect solution. And since the maintainers of Swiftmailer and Symfony Mailer are the same, there's no competition at all: same feature but "better", but same people, and entirely new things. Symfony Mailer is not Swiftmailer. It is something new.
 
-Pour moi, par exemple, la migration était rapide : l'appli sur laquelle je l'utilisais n'envoyait que 3 mails différents (inscription, mot de passe, formulaire de contact). Plus simple, mais évidemment ce n'est pas le cas de plus grosses applications.
+## Refactor it
 
-Je pense donc que réécrire Swiftmailer de zéro était une bonne solution, l'architecture étant **vraiment** trop complexe pour être juste mise à jour. Et il n'y a pas vraiment de compétition : c'est la même équipe, et Swiftmailer ne sera plus maintenu au bout d'un moment, donc c'est une incitation à migrer vers un nouvel outil.
+A solution that kind of "reverses" the problem of the "new package" philosophy.
 
-## Améliorer l'existant
+Some packages really benefit this option, such as [Twig](https://twig.symfony.com), and the advantage is that it does not really have many competitors in the PHP world as a templating engine, therefore refactoring it is, like, "mandatory".
 
-C'est une solution qui "inverse" pratiquement le problème de la philosophie "réinventer la roue".
+But "refactoring" can also be granular, it can also take time.
 
-Certaines libs bénéficient vraiment de cette option, comme [Twig](https://twig.symfony.com), et l'avantage c'est qu'il n'y a pas vraiment de compétiteurs directs dans le monde de PHP (à part Blade, sponsorisé par Laravel), et créer un nouveau moteur ne serait pas pertinent, car Twig a déjà tout ce qu'il faut. Du coup, l'améliorer a plus de sens.
+There's a nice example of discussion about this in a [Symfony PR](https://github.com/symfony/symfony/pull/30672). The subject is mostly about how a migration path could be provided in Symfony 4.* when changing things in the concepts of a "Kernel" in Symfony, and some thoughts are about _"deprecate in Symfony 5 and remove in Symfony 6"_. As a reminder, Symfony 6 will be released in November 2021. It's almost three years from now (when this post is written). And Symfony 5 will be released in November 2019, so seven months from now.
 
-Cela dit, faire du _refactoring_ de façon granulaire peut prendre pas mal de temps.
+This is what I would call a "clean migration path". Especially when talking about a component as important as HttpKernel.
 
-Il y a une discussion intéressante dans une [Pull-Request sur Symfony](https://github.com/symfony/symfony/pull/30672). Le sujet parle ici de changer le système  de "Kernel" dans Symfony 4, et quelques pensées vont vers une méthode du style _"Déprécier dans Symfony 5, supprimer dans Symfony 6"_. Pour info, la PR date de Mars 2019, Symfony 5 est sorti en Novembre 2019, et Symfony 6 sortira en Novembre 2021. Cela fait donc plus de 3 ans entre le temps auquel la PR a été créée et le temps éventuel où la fonctionnalité sera supprimée.
+Refactoring has tons of disadvantages:
 
-C'est ce que j'appelle un "chemin de migration clair". Surtout quand on parle d'un composant aussi important que HttpKernel.
+* Migration path is the worst. Either you do not take care of it and just release a new major like _"We changed everything, please adapt"_, or you deprecate things in current version, add clean `@trigger_error('Deprecated (...)', E_USER_DEPRECATED);`, make sure you don't break everything when releasing a new minor, and make sure the new major is stable.
+* You have to deal with old code. Old, dirty, silly code. Often code you never wrote. Sometimes code you cannot read, code that is messed up everywhere.
+* Yeah, saying it again, but OLD CODE! Practices never seen for decades, maybe some kind of HTML nested in PHP nested in a very old CGI script and... No, that's not possible, is it??
 
-Après, améliorer l'existant a également des inconvénients :
+Yeah, refactoring is hard work, but:
 
-* La rétrocompatibilité c'est le pire. Soit vous vous en fichez et vous faites une nouvelle version majeure du style _"On a tout changé, adaptez-vous"_, ou vous dépréciez des tas de trucs dans la version actuelle, en rajoutant des appels du type `@trigger_error('Deprecated (...)', E_USER_DEPRECATED);` (vive PHP pour ça), faites bien gaffe à ne pas tout casser en sortant la nouvelle version mineure, et supprimez tout ça à la prochaine version majeure en faisant bien gaffe à ne pas péter tout l'existant. Bref, la rétrocompatiblité, c'est tout un métier.
-* Il faudra faire avec du vieux code. Vieux, moche, sale, mal organisé, souvent du code que vous n'avez écrit, d'ailleurs qui l'a écrit ? Personne ne sait. Des fois, ce sera du code illisible, qui est en bazar partout.
-* Oh, et je le dis encore une fois, DU VIEUX CODE ! Des pratiques qu'on n'a pas vu depuis des décennies, genre du HTML dans du PHP dans un vieux script CGI, et… Nan, c'est pas possible ça, si ??
+* You benefit from your current community. And maybe a lot of people that already know the codebase.
+* When a new major version is almost ready, it is easier to call the community and ask for beta-testing it. Release a "release candidate" first, and ask a few people to require it & throw it on their already existing CI, and it should do the trick. But of course it only works for people that don't override too much of your package. Else, this point is, well... pointless.
+* Your package is popular. New version is better? Well, it will probably become more popular. Good point for you.
 
-Yep, améliorer l'existant, c'est chaud. Mais :
+## The "yet another new package" philosophy
 
-* Vous pouvez faire appel à votre communauté ! Et oui, du coup des gens qui connaissent au moins un peu l'outil. Avec plusieurs cerveaux, ça peut aller plus vite.
-* Quand une version majeure est presque terminée, il est même possible de sortir des versions beta ou "release candidate", et demandez aux gens qui utilisent déjà l'outil de le tester dans leur projet, balancer tout ça dans leur intégration continue, en général ça devrait suffire à détecter les bugs les plus directs. Évidemment ça ne fonctionnera que pour les gens qui ne surchargent pas trop votre code. Sinon, bah... c'est un problème d'architecture, et ça se règle aussi.
-* Si votre lib est déjà popuplaire, et que la nouvelle version est meilleure, eh bien elle sera probablement encore plus populaire après. Bon point pour vous.
+Something happened today: [a new "FlysystemBundle" was created](https://titouangalopin.com/introducing-the-official-flysystem-bundle/), and it is hosted on the PhpLeague Github organization.
 
-## La philosophie "encore un nouvel outil"
+I was told about the "3 advantages" of this package.
 
-Quelque chose est arrivé aujourd'hui et qui m'a donné envie d'écrire cet article : [un nouveau "FlysystemBundle" a été créé](https://titouangalopin.com/introducing-the-official-flysystem-bundle/), et il est hébergé sur l'organisation Github de ThePhpLeague.
+It is supposed to be:
 
-On m'a dit que ce nouveau bundle avait "3 avantages".
+1. Official
+2. Better code, better support of Symfony 4.2 features
+3. Follows standards of Symfony and Flysystem communities.
 
-Il est soi-disant :
+Yeah, these are good advantages.
 
-1. Officiel
-2. Mieux codé, genre il gère mieux les nouvelles fonctionnalités de Symfony 4.2
-3. Suit les standards de code de Symfony et de Flysystem
+But.
 
-Oui, sur le papier, c'est joli.
+An existing bundle have been flying around (pun intended) for a long time now: [OneupFlysystemBundle](https://github.com/1up-lab/OneupFlysystemBundle), created by 1up-lab.
+It's a direct implementation of `ThePHPLeague/Flysystem` and it's already shipped with lots of features.
 
-Mais.
+> What you will read will be way more subjective after these words.
 
-(oui, toujours un "mais", sinon ça sert à rien d'écrire un article et de faire l'[odieux connard](https://unodieuxconnard.com/))
+The three points above that were told to me as "a good reason", **could all have been solved without a new package**.
 
-Il existait un bundle depuis un loong moment pour l'exact même usage : [OneupFlysystemBundle](https://github.com/1up-lab/OneupFlysystemBundle), créé par 1-up Lab.
-C'est une implémentation directe de `ThePHPLeague/Flysystem` et il a déjà plein de fonctionnalités.
+### "It is official"
 
-> La suite sera encore plus subjective.
+Yes, it is. Okay. Well. Fine.
 
-Les trois points ci-dessus m'ayant été donnés comme des "bonnes raisons" **auraient pu être tous corrigés sans aucun nouveau bundle**.
+What does it mean to be "official"?
 
-### "C'est officiel"
+It means that **the original maintainers of the library will maintain it**, mostly. If I'm wrong, tell me.
 
-Oui, ça l'est. Ok. D'accord. Super. Cool.
+Being official is "just a name". It happened in the past that repositories changed hands and the simple notion of "official" is only valid for a certain period of time.
 
-Ça veut dire quoi, "être officiel" ?
+A nice example is the [FOSCKEditorBundle](https://github.com/FriendsOfSymfony/FOSCKEditorBundle). At the beginning, it was just [IvoryCKEditorBundle](https://github.com/egeloen/IvoryCKEditorBundle), and after a common decision in the community, it was transferred to the FriendsOfSymfony organization for better maintenance and better support. No migration path, you just change the package & version and you get the same code. Or use the old version if you don't want to migrate, but, hey, it's really a migration, since it's the same package, is it?
 
-Ça veut dire que **les mainteneurs de la lib initiale vont maintenir cette lib également**, en gros. Si j'ai tort, arrêtez-moi là, hein.
+It is also happening right now for [Laminas](https://framework.zend.com/blog/2019-04-17-announcing-laminas.html) which is the continuation of Zend Framework. Okay, for this example we don't have all the details yet, but I hope you got the point at this stage of the blog post.
 
-Être officiel c'est "juste un nom". Il est déjà arrivé plusieurs fois dans le passé que des outils changent d'équipe et que la notion d'outils "officiels" soit juste valide pendant un certain temps, ou pas.
+So, against what am I ranting again?
 
-Un bon exemple, c'est le bundle [FOSCKEditorBundle](https://github.com/FriendsOfSymfony/FOSCKEditorBundle). Au début, c'était juste [IvoryCKEditorBundle](https://github.com/egeloen/IvoryCKEditorBundle), et après **des discussions et une décision de la communauté**, il a été transféré à l'organisation FriendsOfSymfony, pour une maintenance communautaire plus large et un "meilleur" support. Aucun chemin de migration complexe nécessaire : c'est exactement le même outil, il suffit de changer le nom et la version dans votre `composer.json` et c'est le même code, juste un _namespace_ différent. Vous pouvez aussi utiliser la vieille version si vous ne voulez pas migrer, de toute façon c'est la même chose, n'est-ce pas ?
+"Official" is not an argument.
 
-C'est aussi arrivé avec [Laminas](https://framework.zend.com/blog/2019-04-17-announcing-laminas.html) qui est la suite historique de Zend Framework. Bon, je n'ai pas tous les détails pour ce cas précis, mais l'idée est la même : changez le nom et la version, et la base de code est la même. En tout cas je pense que vous avez saisi l'idée.
+Anyone could propose 1up-lab to keep the maintenance of the project but make it "the official" one. After all, it's the most used of the Flysystem-related bundles, if not the only one, so why not? 1up-lab keeps being the original authors, it's written everywhere in the commit history, in the comments, in the licence, etc.
 
-Du coup, contre quoi je me prends la tête, déjà ?
+"Official" would be a potential argument only if 1up-lab would have refused to "be official". Only. At. That. Time.
 
-Ah oui : "officiel" n'est pas un argument.
+And even then: it's open-source, so anyone from ThePHPLeague could've forked it and make it official anyway. No harm. That's what a licence is for.
 
-L'équipe de Flysystem aurait pu proposer à 1up-Lab de reprendre la maintenance de leur projet et de la rendre "officielle". Après tout, c'est la plus utilisée de toutes les implémentations de Flysystem pour Symfony, sinon la seule, donc pourquoi pas ? 1up-Lab resterait l'équipe créatrice initiale, c'est écrit partout dans l'historique et les contributions de toute façon, les commentaires, les pull-requests, la licence, etc.
+### "Better code, better support of Symfony 4.2 features"
 
-"Officiel" pourraît être un argument seulement si 1up-Lab avait **refusé** que son outil devienne "officiel". Seulement. Dans. Ce. Cas.
+Yes, "better code" you could have just optimized in the original repo.
 
-Et même, c'est Open Source, donc si quelqu'un de ThePhpLeague avait fait un _fork_ de ce bundle pour le rendre officiel, pas de problème, la licence est là pour préparer à ça justement.
+"Better support (...)" you could have added with a 3 lines of code change in the original repo (okay, it's not 3 lines, but it is certainly way less lines than rewriting everything).
 
-Cependant, il n'y a eu **aucune** proposition. **Aucune** discussion. **Aucune contribution à l'existant**.
+"(...) of Symfony 4.2 features" you could have supported on either an automated way of doing it (detect Symfony version & use feature), or you could also have dropped support for older versions with a new major version (again, Semver FTW).
 
-Rien de tout ça.
+As a nice example related to Flysystem's bundle, the only new feature in the new bundle is something that took me one single hour of work & tests & checks and I submitted them [in this PR](https://github.com/1up-lab/OneupFlysystemBundle/pull/190), and it was accepted. One hour, and everyone gets the "very shinier feature, such wow" that is promoted elsewhere.
 
-### "Mieux codé, gère mieux les nouvelles fonctionnalités de Symfony 4.2"
+There is no real argument in here, only things that could probably have cost way less by just helping the original package.
 
-Yep, "meilleur code". C'est sûr. Il est aussi possible d'optimiser le code du repo d'origine.
+### "Follows standards of Symfony and Flysystem communities."
 
-"Gère mieux (…)", dans la plupart des cas on peut ajouter quelques lignes de code pour ça (bon, peut-être un peu plus que ça, mais c'est toujours moins de code à écrire que de tout réécrire).
+What standards? K&R vs Allman indentation style? Rich models versus anemic models? Mediator over Observer?
 
-"(…) fonctionnalités de Symfony 4.2", c'est toujours possible de façon automatisée en rajoutant une couche de compatibilité spécifique en détectant la version du framework, ou même en créant une nouvelle version majeure de l'outil qui supprime le support de vieilles versions de Symfony et gère "mieux" les nouvelles.
+Some organizations have very strict coding styles, such as [Doctrine](https://github.com/doctrine/coding-standard), and [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) too.
 
-Un bon example sur ce nouveau bundle Flysystem, la seule et unique fonctionnalité "nouvelle" m'a pris une seule heure de travail & tests & relecture et je l'ai envoyée [via cette PR](https://github.com/1up-lab/OneupFlysystemBundle/pull/190), et elle a été acceptée sans problème. Une heure, et tout le monde a cette "nouvelle super cool fonctionnalité, such wow" promue ailleurs.
+Yet if some styles differ, most of the time it is a matter of taste, an "implementation detail". If the code acts well, is performant enough (benchamarks & profiling proving it) and features are flexible, what "standards" would you expect more?
+You could use tools like [PHPStan](https://phpstan.org/) or [Psalm](https://psalm.dev/docs/installation/) to have stronger coding standards.
 
-Aucun réel argument ici, du coup, seulement des choses qui auraient probablement coûté bien moins que de juste contribuer à l'outil initial.
+Standards are things you _can_ follow if some problems occur in the organization process. If you're a library, standards will not be used the same way as if you are a triple-A framework, because the impact is not the same.
 
-On m'a d'ailleurs dit que ce nouveau bundle avait mis près d'un an à être codé.
+But again, if you want to follow a standard, I don't think the maintainers from 1up-lab would have refused something "closer to Symfony standards" while being a Symfony bundle.
 
-Une année vs une heure, vous préférez quoi ?
+After all, [they are working on CS fixes](https://github.com/1up-lab/OneupFlysystemBundle/pull/191), and anybody could discuss. And by the way, the original author of the new FlysystemBundle [never opened any issue to discuss with the community](https://github.com/1up-lab/OneupFlysystemBundle/issues?utf8=%E2%9C%93&q=author%3Atgalopin) about a new integration with new standards and stuff. Click the link: never.
 
-### "Suit les standards de code de Symfony et de Flysystem"
+A feature is only a pull-request away.
 
-Quels standards ? Indentation K&R vs Allman ? Modèles riches vs modèles anémiques ? Mediator plutôt qu'Observer ?
+All of these statements could be true for this Flysystem bundle, and more important: they could be true for ANY package, actually.
 
-Oui, certaines organisations ont des standards de code stricts, comme [Doctrine](https://github.com/doctrine/coding-standard), et [Symfony](https://symfony.com/doc/current/contributing/code/standards.html).
+## It is not just about "a library", it goes way abroad
 
-Si les styles diffèrent, la plupart du temps c'est une affaire de "goût", un "détail d'implémentation" peut-être. Tant que le code fonctionne pareil et qu'il est assez performants (benchmarks et profiling à l'appui), et que les fonctionnalités sont extensibles (rapport aux principes SOLID), quels "standards" pourrions-nous clairement raisonnablement avoir de plus ?
- 
-On peut utiliser [PHPStan](https://phpstan.org/) ou [Psalm](https://psalm.dev/docs/installation/) pour renforcer ces standards, c'est une décision du mainteneur ou de l'équipe, ou même simplement une [simple PR exécutant les outils en question](https://github.com/gabrielrcouto/php-gui/pull/123) par exemple.
+I'm ranting about this because of a bigger problem.
 
-Les standards sont des guides que vous _pouvez_ suivre si vous avez des problématiques d'organisation dans l'équipe. Si vous maintenez une lib, les standards ne seront pas utilisés de la même façon que pour un framework triple-A, l'impact n'est pas le même. Idem pour un projet clé-en-main (comme OctoberCMS, Wordpress, etc.), qui n'ont pas les mêmes exigences.
+You shouldn't be surprised if I tell you that we are in a society of consumerism ruled by capitalism.
 
-Si vous décidez quand même de suivre un standard, j'ai quand même des doutes sur le fait que 1up-Lab pusse avoir refusé une PR exécutant `php-cs-fixer` avec les standards de code de Symfony.
+Consume something, if you don't like it, go elsewhere, or do your own. And you **pay** for that. All the time.
 
-Après tout, [travaillent bien sur des correctifs de style de code](https://github.com/1up-lab/OneupFlysystemBundle/pull/191), et tout le monde peut venir en discuter.<br>
-Ah, et au fait, l'auteur de ce nouveau FlysystemBundle [n'a jamais ouvert une seule discussion avec la communauté](https://github.com/1up-lab/OneupFlysystemBundle/issues?utf8=%E2%9C%93&q=author%3Atgalopin) sur une nouvelle version ou une nouvelle intégration ou que sais-je. Cliquez sur le lien: jamais.
+### The "past"
 
-Une fonctionnalité est juste à la portée d'une pull-request.
+The "do your own" was nice when "things" were not as advanced as today.
 
-Tous ces états de faits sont vrais pour ce FlysystemBundle, mais si j'écris c'est article, c'est qu'en réalité c'est vrai pour N'IMPORTE QUEL OUTIL.
+Workers are being replaced by machines in factories for a good reason: it makes more "things" for less money and allows the boss to earn more money. This makes the worker go home or find another job.
 
-## C'est pas juste à propos d'une lib, ça va bien plus loin
+In the IT industry, like, 20-30 years ago, it was mostly about "do it yourself" because there was almost no documentation, no standard, and programming languages were a bit more cryptic than today. I remember my older brother reading a 200+ pages book in A4 format, filled with lines of code to copy on his own computer, just to code a simple game.
 
-Je me prends la tête sur ce sujet à cause d'un problème plus grand.
+Today it is about elitism.
 
-Cela ne surprendra probablement pas grand monde si je dis que nous vivons dans une société de consumérisme gouvernée par le capitalisme.
+Workers are replaced by automated machines, and low-level developers are "replaced" with high-level programming interfaces. The problem is that the IT industry needs so many developers that we need to coach, train and educate, and many training centers claim to rise new developers in like 3-6 months. This is wrong, you don't make a developer in 6 months, at best you can make a nice junior developer, but not "a developer". All the missing experience and state of mind cannot be acquired in such a rush. Therefore, developers entering this industry are less skilled than the "old" ones. This makes sense, it is logical. But.
 
-Consommez, si vous n'aimez pas, allez voir ailleurs, ou faites-le vous-même. Et vous **payez** pour tout ça. Tout le temps.
+What we experience is that older developers (the one with, let's say, more than 10 years of experience, a degree in computer science, or just a true passion and full-time + free time dedicated to programming) are so much more experienced than new developers, the gap is so big, that we can experience something like a "conflict of generation". This is also "normal" but it should not lead to issues such as [elitism on StackOverflow](https://stackoverflow.blog/2018/04/26/stack-overflow-isnt-very-welcoming-its-time-for-that-to-change/).
 
-### Le "passé"
+### The "now"
 
-Cette histoire de "faites-le vous-même" était plutôt intéressante quand les "choses" n'étaient pas aussi avancées qu'aujourd'hui.
+Well, elitism is everywhere now.
 
-Les machines remplacent les humains au travail, dans les usines par exemple, pour une "bonne" raison : elles font plus de "choses", pour moins cher, et permettent aux patrons de gagner encore plus. Du coup, les humains rentrent chez eux, ou cherchent un autre boulot.
+Workers disappear, and high-skills jobs come upfront. But everybody needs these top-level jobs. But it's hard to find top-level candidates. Like the current airline pilot shortage, or the programmers shortage.
 
-Dans l'industrie de l'IT, genre il y a 20-30 ans, c'était vraiment "l'âge d'or" du _do it yourself_, car il n'y avait quasiment pas de documentation, très peu de standards, et les langages de programmation étaient un peu moins simples qu'aujourd'hui. Je me souviens de mon grand frère lisant un livre de genre 200 pages format A4, rempli de lignes de codes à copier sur son propre ordinateur, juste pour avoir un jeu vidéo.
+We need "high skills" everywhere, and lesser amount of skills is not really acceptable, because stacks continue to become more and more complex (docker, kubernetes, async, APIs, micro-services, etc.). In the past we had the "integrator", "sysadmin", "dev", "UX designer". Now we have _"devops that do everything because it's so cool to have a full-stack-ninja-jedi-that-plays-foosball-in-the-office-and-drinks-beer-and-eats-pizza"_ or anything that people tend to write in their job offers just because they struggle while searching for developers.
 
-Aujourd'hui, c'est plutôt de l'élitisme.
+Let me repeat this:
 
-Les travailleurs sont remplacés par des machines automatisées, et de leur côté les devs "bas-niveau" sont remplacés par des interfaces de programmation "haut-niveau". Le problème c'est que l'industrie de l'IT a besoin de tellement de devs qu'il faut les former, les éduquer à cette industrie, et plein de centres de formations se vantent de faire ça en 3 à 6 mois. Je pense que c'est n'importe quoi. On ne devient pas dev en 6 mois. Au mieux, on devient dev junior qui a des notions théoriques sur plusieurs sujets, mais c'est insuffisant. Toute l'expérience, la théorie sur l'architecture, l'Open Source, les différents langages, les concepts, etc., rien de tout ça ne peut être acquis en une période si courte. Les seules formations disponibles il y a plus de quinze ans étaient des DUT ou BTS, donc au minimum 2 ans, ainsi que d'autres études supérieures pouvant aller jusqu'au doctorat.
-Du coup, les devs qui arrivent dans l'IT aujourd'hui sont beaucoup moins expérimentés. Après, si ce sont des débutants, c'est logique. Mais. (oui, encore un "mais")
+Jobs that need less skills are disappearing.
 
-Ce que l'on peut constater est que les devs avec plus de 10 ans d'expérience, un ou plusieurs diplômes dans l'informatique, ou juste une passion dévorante où le temps libre est également consacré à l'informatique, ou tout ça en même temps, sont tellement plus expérimentés, l'écart s'agrandit de plus en plus chaque année avec la recrudescence de nouvelles technologies, et on en arrive à un genre de "conflit de générations". Les devs "hipster-JS-fullstack-react" versus "vieux barbu dans sa cave avec un donut et un Apple II" (je caricature très grossièrement).
-C'est un peu normal, en soi, mais ça peut aboutir à des problèmes comme [l'élitisme sur StackOverflow](https://stackoverflow.blog/2018/04/26/stack-overflow-isnt-very-welcoming-its-time-for-that-to-change/).
+This forces people with less skills to either struggle in the job market, or train themselves for a more elitist job. And this is not right, because I do not believe anyone can become a developer. At least, I think that not everyone can become an advanced developer. And our industry will suffer this in the next years, because it needs developers with good skills. Poor skills and projects go wrong, to say the least. Developers get sad, they leave after 1-3 years, and start over in another company. Until they eventually find a "better place".
 
-### Le "présent"
+These companies consume developers as we use to consume "things".
 
-Et du coup, l'élitisme est partout.
+## Let's come back to the subject
 
-Les travailleurs disparaissent, et de nouveaux emplois apparaîssent, avec un niveau d'exigence et de compétence encore plus grand. Et tout le monde en a besoin. Et c'est difficile de trouver des profils avec un bon niveau (surtout vu que beaucoup de juniors sont sur le marché). Un peu comme la pénurie de pilotes de ligne, ou de devs COBOL.
+FOSS is about consuming free software. Free. So we can do whatever we want with it.
 
-Il faut des "top-level" partout, et moins de compétences n'est pas vraiment acceptable car les architectures et environnements des applications sont de plus en plus complexes (docker, kubernetes, async partout, APIs et web-services, micro-services, etc.). Dans le passé, il y avait "l'intégrateur HTML/CSS", le "sysadmin", l'"UX Designer", etc. Maintenant on a un truc du style _"devops qui fait tout parce que c'est cool d'avoir un full-stack-ninja-jedi-babyfoot-bière-pizza-react-laravel-wordpress"_. Même les désignations de métiers sont insensées quand ça tourne autour de l'IT. Le métier de "dev" est maintenant tout aussi vague que ne l'était le métier "d'informaticien" il y a 15 ans. 
+But the best of FOSS is the **spirit of sharing**. You share, you discuss, debate, contribute, benefit and so on.
 
-Je me répète :
+Sharing is not something that is really considered as a main value in the world of capitalism.
 
-Les métiers qui nécessitent un niveau plus bas de compétences sont en train de disparaître.
+The values in capitalism are things that bring more profit.
 
-Cela force les personnes qui ont un moins bon niveau à soit galérer sur le marché du travail, ou alors se former pour un job avec encore plus d'exigences. Et c'est injuste (gna gna gna caliméro), parce que je pense que tout le monde n'a pas forcément le niveau pour changer, et surtout, je pense que tout le monde n'a pas forcément envie. Du coup les projets avec moins de "skills" s'étiolent, pour le moins. Les devs en ont marre, ils se barrent rapidement (turn-over de 1 à 3 ans dans notre métier, c'est quand même gros), et recommencent dans une autre entreprise. Encore et encore. Et du coup les connaissances acquises se perdent, le projet "vit" moins bien, l'entreprise en est impactée, et ainsi de suite.
+FOSS's profit is not financial profit, it's more about sharing tools that are useful for people. It's more a **communautary profit**.
 
-Ces entreprises sont donc désormais contraintes à participer à cette "consommation de devs", au même titre que la société nous enjoint à "consommer des choses".
+In its roots, **free open-source software is humanism**.
 
-## Retour au sujet initial
-
-FOSS (Free Open Source Software) c'est donc un petit peu "consommer des logiciels libres". Et gratuits. Et tout le monde fait selon ses envies.
-
-Mais le mieux dans l'Open Source c'est **l'esprit de partage**. On partage, on discute, on débat, on contribue, tout le monde en profite, et ainsi de suite.
-
-Partager gratuitement n'est pas vraiment une valeur principale dans le monde du capitalisme.<br>
-Dans ce monde, les valeurs viennent plutôt de ce qui fait du profit. De la thune. Des bas d'laines. Tout c'qui traîne.
-
-Le capitalisme **se sert de l'Open Source** comme d'un **moyen** pour faire du profit. Point. Barre.
-
-Le profit interne de l'Open Source n'est pas un profit financier, c'est plutôt le partage d'outils utiles pour les gens. C'est plutôt un **profit communautaire**.
-
-En son cœur, **le logiciel libre et Open Source est une forme d'humanisme**.
-
-Mais pas seulement. En tout cas, j'en ai peur :
+But not only. At least, this is what I fear:
 
 ### Ego
 
 [We're only human, after all](https://www.youtube.com/watch?v=L3wKzyIN1yk).
 
-Mais des fois (souvent ? Ouais, cet article est subjectif, je sais) j'ai le sentiment que l'égo domine partout.
+But I feel like sometimes (more like "often", yeah, this post is subjective), ego predomines all.
 
-Comme dit plus haut, pour des logiciels open source, on a parlé de deux stratégies : recréer de zéro, ou améliorer l'existant.
+As said above, with FOSS there are two strategies: refactor, or recreate.
 
-Le capitalisme dirait probablement "On recrée, en privé, et on vend". Évidemment, l'Open Source ne vend pas vraiment. Du coup, chacun "fait ce qu'il veut", et finalement il reste juste des "satisfactions personnelles". L'égo, du coup, catalyseur de satisfaction personnelle des Hommes.
+Capitalism would say "recreate and sell". Of course, FOSS can't sell that much. So we end up with ego, the main source of men's satisfaction.
 
-(je parle surtout d'hommes et moins de femmes, car j'ai le sentiment que les femmes sont moins sujettes à l'ego dans l'Open Source, probablement parce que l'IT est une industrie avec malheureusement 95% d'hoommes, et que la plupart des femmes dans l'IT souffrent de cette situation, mais c'est un autre sujet)
+(I'm talking about men and not women because I feel like women are not really that much into ego especially in the FOSS world, mostly because IT is unfortunately 95% men and women are a minority, and most of them suffer because of this situation, but that's not the subject.)
 
-La satisfaction peut venir sous plusieurs formes, mais je dirais que dans l'IT, l'égo vient surtout en fonction de comment on est considérés dans note champ d'expertise, notamment comme une forme "d'autorité".
+A man's satisfaction can come in many shapes, but in softwares industry, ego comes with how much you're considered an "authority" in your field of expertise.
 
-Un petit exemple : devenez dev Symfony ou Laravel, accumulez plein de compétences, contribuez au framework avec des fonctionnalités utiles, et beaucoup de monde vous considèrera comme une forme "d'autorité", ou "d'influence". Et des fois, avec quelques compétences avancées, vous allez déclencher sans faire exprès le syndrome de l'imposteur d'autres devs qui n'auront pas ces compétences ou connaissances. Alors que ces personnes savent certainement faire plein d'autres choses aussi.
+A simple example: become a Symfony developer, get skills with it, contribute to the Symfony framework with one or two features, and you can be considered by many as a form of "authority". Some few advanced skills and you can trigger other devs' impostor syndrome.
 
-Théoriquement, si l'on regarde bien, n'importe quel dev peut contribuer à de tels frameworks. C'est d'ailleurs grâce à la documentation de contribution de ces outils que l'on se rend compte qu'il suffit d'une idée, d'un cas particulier, et ensuite lire la doc de contribution, pour pouvoir contribuer soi-même.
+Theoretically, anyone could contribute to such framework. That's what some core team members say in their conferences, for example, and they're right in many subjects: follow the guide, ask for help, and anyone could contribute.
 
-Oui, mais non.
+Yes, but no.
 
-Tout le monde n'est pas forcément impliqué dans l'Open Source que les membres des équipes de Symfony ou Laravel ou d'autres contributeurs réguliers. Certaines personnes sont vraiment passionnées par leur sujet, d'autres s'en fichent tant qu'elles ont leur salaire. J'ai connu pas mal de gens qui se contentent de faire leur 8 heures quotidiennes et retourner chez eux sans allumer leur ordinateur à la maison. C'est ok. L'Open Source, on "fait ce qu'on veut", de toute façon, et c'est pas parce qu'on ne contribue pas qu'on n'a pas un bon niveau.
+Not everyone is involved in open-source as much as the Symfony core team or other contributors. Some people are passionate about the subject, and some other just don't care as long as they can get their wage. I know my older brother who's also in IT is not really interested as long as he can still do his job 8 hours a day and come back home and just don't care about it. That's fine, he's just out of the FOSS world, but he can still be a good developer (he's an architect actually, but he's also a developer, well).
 
-Plein de devs cependant sont dans une sorte de _zone grise_, c'est-à-dire que ces personnes ont un intérêt pour l'Open Source mais ne contribue pas, peut-être par manque de temps. Ou de soutien, notamment de la hiérarchie professionnelle (plein de patrons s'en fichent complètement de l'Open Source et voient ça comme du temps et de l'argent perdu. Sauf que si ces gens réfléchissaient un peu mieux, ils réaliseraient que l'Open Source fait bien leur beurre).
+Many devs are in the _grey zone_, meaning they are interested in open-source but they don't contribute nor participate very much, mostly because they don't find time.
 
-Du coup il y a une apparence d'élitisme dans le fait de dire _"Si t'aimes pas, fais-le toi-même"_. Parce que **tout le monde n'en a pas forcément la possibilité**. Sans compter la culpabilisation faite par certains mainteneurs lorsqu'une personne ne contribue pas.
+And I'm saying _"They don't find time"_. Most of the time, we **can** find time to work on an open-source project, but many devs will never do it at work because their boss disagrees (and I wish their boss could agree), or because they don't want to go back to code after they finish their job (or they can't, if they have family and kids, or already have other hobbies). Sometimes they're afraid to contribute, too.
 
-J'ai déjà, personnellement, reçu des injonctions tu style _"Tu peux discuter tant que tu veux, je m'intéresse uniquement aux gens qui codent"_. Des gens qui n'ont donc pas compris que la contribution à l'Open Source ce n'est **pas juste du code**.
+So there's basic elitism in saying things like _"If you don't like it, do your own"_, because **not everyone can**.
 
-[Je disais dans un tweet](https://twitter.com/Pierstoval/status/1300407749252128772) qu'il existe trois étapes faciles pour contribuer au monde de l'Open Source :
+### Not everyone can, hence a paradox
 
-* Utiliser des logiciels Open Source
-* Promouvoir leur usage (famille, travail, institutions…)
-* Aider les gens à comprendre et utiliser l'Open Source
+It is the main paradox in FOSS to me:
 
-### Tout le monde ne le peut pas, d'où le paradoxe
+* You share free tools for good and for the community
+* Anyone can do whatever they like (in the limits of the license)
+* If they do want to contribute, you'll discuss and hopefully end up with a consensus and improve your library for the good and the community
+* But if this "anyone" does not suit your personal feelings about how to contribute, you just let them f*ck off.
 
-C'est le principal paradoxe de l'open-source à mes yeux :
+And the last point is the most important, because it can even be triggered _before_ any contribution.
 
-* Vous partagez des outils libres et gratuits pour le bien commun
-* Tout le monde peut faire ce qui lui plait avec (dans les limites de la licence, bien sûr)
-* Quiconque veut contribuer peut commencer à discuter, débattre, réfléchir, et peut-être finir par un consensus qui améliorera la qualité des outils, pour le bien commun toujours
-* Mais si ce "quiconque" ne sied pas à vos opinions sur la façon de contribuer, vous les envoyez ch*er
+You don't like the person who made a very popular package? Let's fork it and promote your own work. Ego fight.
 
-Le dernier point est le plus important, parce qu'il est souvent présent _avant_ toute contribution.
+Some maintainer doesn't like your idea, or worse, doesn't like you? They'll just remove your contribution, do it themselves and promote their work.
 
-Vous n'aimez pas la personne qui a fait tel ou tel outil ? Il suffit de le _fork_ et de promouvoir votre propre travail. Baston d'égo.
+If you say "competition is nice" you are totally in to capitalism.
 
-L'équipe qui maintient l'outil n'aime pas votre idée, ou pire, ne vous aime pas vous ? L'équipe va juste supprimer votre contribution, la refaire elle-même, et promouvoir son travail.
+Competition is interesting when there are benefits on both (or more) sides of the competition.
 
-Si vous me dites "La compétition a du bon", vous êtes clairement à fond dans le capitalisme.
+For example, Laravel vs Symfony is a nice competition because they have a totally different philosophy, and both can benefit from the other in order to bring new features. For example, Laravel borrows tons of things from Symfony by using its components, and Symfony introduced a few features from Laravel in the past (like the `dd()` function, or testing assertions inspired by Laravel Dusk). This is a sane competition, when looking at these frameworks at least (it becomes less sane when looking at human beings...).
 
-La compétition est intéressante quand il y a des bénéfices des deux côtés, ainsi que du côté utilisateur ou consommateur.
+A competition between Package A and B, one being the fork or a rewrite of another, is not really sane, because you end up with 2 packages doing the exact same thing, and only popularity will win. Nobody ever created a fork of Twig in order to "optimize" it. No. Twig was just optimized. And rewritten a bit, maybe.
 
-Par exemple, Laravel vs Symfony est une compétition intéressante parce que les deux frameworks ont une philosophie très différente, et chacun peut s'inspirer de l'autre pour apporter des petites nouveautés. Par exemple, Laravel emprunte des tas de concepts issus de Symfony et utilise même ses composants, et de son côté, Symfony a introduit quelques nouvelles fonctionnalités inspirées de Laravel (comme la fonction `dd()`, ou les assertions de tests inspirées de Laravel Dusk). C'est une compétition saine, en tout cas au regard des frameworks (parce que c'est vachement moins sain du côté des humains derrière…).
+Here, I'm talking about a concept: a package that does the same thing than its competitor, but is claimed to "be better".
 
-Une compétition entre des outils A et B, l'un étant un fork ou une réécriture de l'autre, n'est pas saine, car vous finissez avec 2 libs faisant la même chose, et seule la popularité de l'outil (ou de son mainteneur…) gagnera à la fin. Personne n'a jamais créé un fork de Twig pour l'optimiser ou que sais-je, non. Twig a juste été optimisé, et un petit peu réécrit, peut-être.
+To me it is pure ego to just rewrite the original package and claim the new one is "better" without having contributed to the first one, and did not even started discussing.
 
-Ici je parle plutôt d'un concept : une lib qui fait la même chose que la lib concurrente, mais est juste vendue comme "meilleure".
-
-À mes yeux, c'est juste du pur égo que de réécrire la lib d'origine et clamer que cette nouvelle version est "meilleure", surtout sans avoir jamais contribué à la lib d'origine ni jamais avoir démarré de discussion.
-
-C'est pas du logiciel libre et Open Source.<br>
-C'est de l'ego.<br>
-C'est du capitalisme.
+This is not free open-source software.<br>
+This is ego.<br>
+This is capitalism.
