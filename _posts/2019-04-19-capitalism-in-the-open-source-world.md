@@ -6,7 +6,7 @@ lang: en
 lang-ref: capitalism-in-the-open-source-world
 ---
 
-Last modified: 2019-05-21 12:38
+Last modified: 2021-06-17 14:45
 
 A good representation of how the capitalism spirit can be introduced in FOSS:
 
@@ -163,7 +163,7 @@ What standards? K&R vs Allman indentation style? Rich models versus anemic model
 
 Some organizations have very strict coding styles, such as [Doctrine](https://github.com/doctrine/coding-standard), and [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) too.
 
-Yet if some styles differ, most of the time it is a matter of taste, an "implementation detail". If the code acts well, is performant enough (benchamarks & profiling proving it) and features are flexible, what "standards" would you expect more?
+Yet if some styles differ, most of the time it is a matter of taste, an "implementation detail". If the code acts well, is performant enough (benchmarks & profiling proving it) and features are flexible, what "standards" would you expect more?
 You could use tools like [PHPStan](https://phpstan.org/) or [Psalm](https://psalm.dev/docs/installation/) to have stronger coding standards.
 
 Standards are things you _can_ follow if some problems occur in the organization process. If you're a library, standards will not be used the same way as if you are a triple-A framework, because the impact is not the same.
