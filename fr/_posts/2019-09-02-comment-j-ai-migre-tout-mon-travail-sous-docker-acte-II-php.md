@@ -37,9 +37,9 @@ Dockeriser PHP nécessite de créer sa propre image, au point où je vais dédie
 
 ## PHP : comment ça marche ?
 
-> Q: C'est quoi PHP ?
-> A: C'est un langage interprété (pour faire court).
-> Q: Comment on le lance ?
+> Q: C'est quoi PHP ?<br>
+> A: C'est un langage interprété (pour faire court).<br>
+> Q: Comment on le lance ?<br>
 > A: Compilez PHP ou téléchargez une version compilée pour votre système, et (... blablabla)
 
 Le "mode d'exécution" de PHP s'appelle un SAPI (Server API).
