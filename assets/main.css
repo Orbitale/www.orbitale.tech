@@ -488,9 +488,12 @@ hr {
     margin-top: 10px;
 }
 
+.lang-options ul,
+.lang-options ul li {
+  list-style: inside none;
+  display: inline-block;
+}
 .lang-options ul {
-    list-style: inside none;
     margin-left: 10px;
     margin-bottom: 0;
-    display: inline-block;
 }
