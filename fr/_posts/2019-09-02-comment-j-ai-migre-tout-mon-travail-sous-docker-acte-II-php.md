@@ -27,17 +27,13 @@ Parlons un peu de PHP en tant que serveur web.
 
 Ce n'est un secret pour personne : le serveur web natif de PHP est loin d'être bon.
 
-[Fabien Potencier](https://speakerdeck.com/fabpot/symfony-local-web-server-dot-dot-dot-reloaded) a récemment demandé à la communauté dev quel serveur web elle utilise, et si l'on exclut Docker (qui est le sujet de cette série d'articles), ainsi que `php bin/console server:start` avec Symfony (qui se concentre seulement sur Symfony), les solutions les plus utilisées restent Nginx et Apache.
+Il existe beaucoup d'alternatives au serveur natif (j'en ai moi-même développé une nommée [Rymfony](https://github.com/Orbitale/Rymfony), solution incomplète mais fonctionnelle et basée sur [Caddy](https://caddyserver.com/)), cela dit, pour des projets plus avancés, ou lorsque l'on gère plusieurs projets, chacun peut avoir besoin de sa propre configuration, et d'un serveur web différent, même en dev.
 
-Ce qui veut dire qu'on a quand même **besoin** d'un serveur web. Et un bon. Et même en dev.
-
-Le [binaire Symfony CLI](https://symfony.com/doc/current/setup/symfony_server.html) a partiellement corrigé ce problème : un serveur web développé en Go qui s'exécute en arrière-plan, et qui va transmettre les requêtes à une instance de `php-fpm`, `php-cgi` ou de `php -S ...` (dans cet ordre de préférence) en fonction de leurs disponibilités (il peut aussi fournir un serveur HTTPS et d'autres fonctionnalités).
-
-Cependant, il faut quand même avoir installé PHP.
+Cependant, sans Docker, il faut quand même avoir installé PHP sur sa machine.
 
 > **Note:** Si vous n'utilisez pas du tout PHP, imaginez le même genre de workflow pour votre langage favori, que ce soit Ruby, Python, Javascript, ou d'autres. Au final, ces langages ont tous des dépendances et la possibilité de faire du web avec, donc le résultat devrait être très similaire.
 
-Dockeriser PHP est assez complexe que je vais devoir faire un autre article pour les _autres_ services que juste PHP.
+Dockeriser PHP nécessite de créer sa propre image, au point où je vais dédier cet article sur la _dockerisation_ de mes projets uniquement à PHP, et qu'il faudra d'autres articles pour les autres outils (voir les autres articles).
 
 ## PHP : comment ça marche ?
 
@@ -55,9 +51,9 @@ PHP est généralement exécuté de deux manières différentes : en ligne de co
 
 Pour chaque solution, il y a une [image Docker officielle pour PHP](https://hub.docker.com/_/php) que vous pouvez utiliser.
 
-Les plus communes étant donc `php:7.4-fpm` pour le web, et `php:7.4-cli` pour seulement la ligne de commande.
+Les plus communes étant donc `php:8.1-fpm` pour le web, et `php:8.1-cli` pour seulement la ligne de commande.
 
-> **Note :** Si j'écris PHP 7.4 aujourd'hui, dites-vous bien que si vous lisez cet article bien plus loin dans le temps, vous devrez prendre la dernière version que vous trouverez sur le Docker Hub, et pas juste ce que je vous dis aujourd'hui.
+> **Note :** Si j'écris PHP 8.1 aujourd'hui, dites-vous bien que si vous lisez cet article bien plus loin dans le temps, vous devrez prendre la dernière version que vous trouverez sur le Docker Hub, et pas juste ce que je vous dis aujourd'hui.
 
 Vous pouvez voir [tous les tags](https://hub.docker.com/_/php?tab=tags) si vous voulez d'autres versions. Il y a même de vieilles versions comme PHP 5.4 ou 5.3 pour vos projets legacy !
 
@@ -65,74 +61,124 @@ Ces images sont basées sur Debian et sont plutôt pratique. D'autres préfèren
 
 D'autres tags (comme `*-apache` ou `*-stretch`) peuvent être utilisés si vous avez besoin de PHP avec d'autres versions de l'OS ou en utilisant l'extension Apache.
 
-**Pour vos nouveaux projets, je recommande d'utiliser `fpm`, c'est plus simple**.
+Cependant, **je n'utilise plus les images officielles** depuis quelques années.
+En effet, l'installation d'extensions n'est pas très intuitive, et si vous utilisez Docker essentiellement pour le dev, et que vos projets sont hébergés sur un système non-dockerisé (comme, pour ma part, un serveur dédié), l'image PHP officielle est peut-être trop différente de votre façon de travailler en production.
 
-## N'allez pas _utiliser_ PHP ! Compilez-le !
+Du coup, j'installe PHP moi-même à partir d'une image `debian`.
 
-Je veux pas dire par là qu'il faut _recompiler tout PHP_, mais c'est un peu pareil, vous allez voir.
+Et ensuite, je rajoute tout ce dont j'ai besoin.
+
+## N'allez pas _utiliser_ PHP ! Configurez-le !
 
 Quand on utilise Docker pour nos langages de programmation, il est toujours mieux d'utiliser un Dockerfile, pour **construire votre propre image avec votre propre configuration PHP dedans**.
 
 PHP n'est pas pratique s'il est "global" sur votre machine, surtout avec plusieurs projets. Et même avec un seul projet, au final.
 
+> La raison pour laquelle avoir PHP globalement installé n'est pas pratique est que les extensions dont vous aurez besoin changeront peut-être, la version aussi, la configuration de `php.ini` aura peut-être besoin d'être différente également.<br>
+> L'intérêt de _dockeriser_ PHP pour chaque projet peut paraître limité, voire redondant, mais en réalité, vous ferez souvent du copier-coller de vos `Dockerfile` habituels, pour finir par modifier des petits bouts de config, pour s'adapter à votre projet.
+
 Si vous voulez toujours que "votre" version de PHP soit "globale", vous pouvez créer un projet "PHP Docker base" pour y stocker la config de base, que vous pourrez réutiliser, mais faites-moi confiance, c'est plus simple de refaire toute la config pour chacun de vos projets, parce que vous finirez invariablement par avoir des "spécificités" dans chacune de vos images. C'est vous qui voyez.<br>
 Je considère chaque langage de programmation, dont PHP, comme un pré-requis **par projet**.
+
+## Structure et Dockerfile
 
 Je démarre quasiment tous mes projets avec une structure comme celle-ci en générale :
 
 ```
 # Structure de dossiers :
 MonProjet/
-├─── docker/                         <-- Là où on stocke toute la config pour les images Docker du projet
+│       ⮮ Là où on stocke toute la config pour les images Docker du projet
+├─── docker/
+│    │
 │    └─── php/
-│         ├─── bin/                  <-- Un dossier "bin" pour les exécutables de l'image Docker
-│         │    └─── entrypoint.sh    <-- On va parler de ce fichier un peu plus tard, je vous rassure :)
+│         │     ⮮ Un dossier "bin" pour les exécutables de l'image Docker
+│         ├─── bin/
+│         │    └─── entrypoint.sh
 │         └─── etc/
-│              └─── php.ini          <-- Chaque projet ayant sa propre config PHP, on la place ici
-└─── Dockerfile                      <-- Et un fichier "Dockerfile" correspondant au langage principal du projet, ici PHP
+│              │     ⮮ Chaque projet ayant sa propre config PHP, on la place ici
+│              └─── php.ini
+│
+│    ⮮ Et un fichier "Dockerfile" correspondant au langage du projet, ici PHP
+└─── Dockerfile
 ```
 
 ```dockerfile
 # ./Dockerfile
-FROM php:7.4-fpm
+FROM debian:10-slim
 
-## Mettez ce que vous voulez ici, mais c'est toujours sympa de rappeler *qui* crée un projet.
-## (vous me remercierez quand vous verrez ce genre de chose sur des projets ayant plus de 5 ans !)
-LABEL maintainer="pierstoval@gmail.com"
-
-## Pas obligatoire, mais en l'utilisant comme une convention un peu partout, c'est plus simple 
+## Pas obligatoire, mais pratique de l'utiliser comme une convention
 WORKDIR /srv
 
-## En le nommant "99-...", on est sûrs que le fichier de config du projet est le dernier à être chargé,
-## du coup ça nous permet de surcharger n'importe quelle configuration de PHP.
-COPY docker/php/etc/php.ini /usr/local/etc/php/conf.d/99-custom.ini
+## En le nommant "99-...", on est sûrs que le fichier de config du projet est le
+## dernier à être chargé, ce qui nous permet de surcharger n'importe quelle 
+## configuration de PHP.
+COPY docker/php/etc/php.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-custom.ini
+
+## L'entrypoint sera utilisé par la commande "ENTRYPOINT" du Dockerfile
+COPY docker/php/bin/entrypoint.sh /bin/entrypoint
+
+## Permet d'éviter certaines erreurs d'affichage lors de l'installation
+ARG DEBIAN_FRONTEND=noninteractive
+
+## On spécifie la version de PHP ici.
+## Notez que d'autres variables d'environnement seront rajoutées plus tard !
+ENV \
+    PHP_VERSION=8.1
 ```
 
 ```ini
 ; docker/php/etc/php.ini
 ; Une config que je réutilise un peu partout, assez pratique.
 ; À vous de l'adapter à vos besoins en fonction de chacun de vos projets !
-; Idéalement, ça doit être la même config qu'en prod, sauf pour les erreurs (affichez TOUJOURS les erreurs en dev).
-allow_url_include = off
+; Idéalement, ça doit être la même config qu'en prod, sauf pour les erreurs
+; (Note : affichez TOUJOURS les erreurs en dev).
+
 date.timezone = Europe/Paris
 max_execution_time = 180
 memory_limit = 1024M
-phar.readonly = off
 post_max_size = 100M
-realpath_cache_size = 4M
-realpath_cache_ttl = 3600
-short_open_tag = off
 upload_max_filesize = 100M
+
+allow_url_include = off
+assert.active = off
+phar.readonly = off
+precision = 17
+realpath_cache_size = 5M
+realpath_cache_ttl = 3600
+serialize_precision = -1
+session.use_strict_mode = On
+short_open_tag = off
+zend.detect_unicode = Off
+
+[assert]
+zend_assertions = 1
+assert.exception = 1
+
+; Pour voir tous les paramètres de configuration d'APCU, consultez ce lien :
+; https://www.php.net/manual/fr/apcu.configuration.php
+[apcu]
+apc.enable_cli = 1
+apc.enabled = 1
+apc.shm_size = 128M
+apc.ttl = 7200
 
 [errors]
 display_errors = On
 display_startup_errors = off
 error_reporting = E_ALL
 
+; Pour voir tous les paramètres de configuration d'OPcache, consultez ce lien :
+; https://www.php.net/manual/fr/opcache.configuration.php
 [opcache]
 opcache.enable = 1
 opcache.enable_cli = 1
 opcache.max_accelerated_files = 50000
+
+; "develop" est un mode par défaut qui enjolive "var_dump()".
+; Pour voir les autres valeurs possibles, consultez ce lien :
+; https://xdebug.org/docs/all_settings#mode
+[xdebug]
+xdebug.mode = develop
 ```
 
 Dans le prochain article, je parlerai plus en détails : base de données, cache, mail...
@@ -147,35 +193,110 @@ Pour ça, je rajoute ceci dans le Dockerfile :
 ```dockerfile
 RUN set -xe \
     && apt-get update \
-    && apt-get upgrade -y \
-    \
-    && `# Les libs qui seront SUPPRIMÉES une fois l'image créée` \
-    && export BUILD_LIBS=" \
-    " \
-    && `# Les libs qui doivent obligatoirement être installées et qui seront CONSERVÉES dans l'image finale` \
-    && export PERSISTENT_LIBS=" \
-    " \
-    && apt-get install -y --no-install-recommends \
+    && apt-get upgrade -y --no-install-recommends \
         ca-certificates \
-        make \
         curl \
+        wget \
         git \
         unzip \
-        $BUILD_LIBS \
-        $PERSISTENT_LIBS \
     \
 ```
 
 Résumons un peu tout ce gros fatras de code :
 
 * On peut voir que tout ceci est en réalité **une seule instruction** `RUN`. Cela permet de limiter la quantité de _layers_ créés par Docker, rendant l'image finale plus légère.
-* Vous pouvez voir que j'abuse un peu des `\` (pour les sauts de lignes) et des ``#` (pour les commentaires), mais c'est important à mes yeux de **documenter votre Dockerfile**. J'ai vu tellement de Dockerfiles sans aucune explication sur le pourquoi du comment d'une dépendance ou d'un script exécuté que du coup je fais ça pour avoir un maximum d'infos. D'ailleurs, je vais même jusqu'à séparer l'installation de certains outils (vous verrez ça plus loin). 
-* Aussi, vous pouvez constater qu'il y a une différence entre `BUILD_LIBS` et `PERSISTENT_LIBS`.<br>
-Parfois, en installant des packages, vous avez besoin de toute une lib, mais une fois installée, il ne faut plus que les _headers_ (la plupart du temps il s'agit des packages se terminant en `-dev`). Pour rendre l'image plus légère, on différencie les deux, et on supprime à la fin toutes celles qui étaient dans `BUILD_LIBS`, qui ne servent donc plus.
-* Aussi, il y a une bonne raison pour laquelle je rajoute `make`, `curl`, `git` et `unzip` par défaut : ça facilite grandement l'installation de certaines dépendances, et Composer s'en servira peut-être lui-même pour installer vos dépendances PHP plus tard, et c'est plus rapide. Elles ne sont cependant pas 100% obligatoires (certains packages que vous installerez les installeront peut-être de toute façon).<br>
-Vous pouvez les ajouter à `BUILD_LIBS` si vous êtes vraiment certain(e) de ne plus en avoir besoin après avoir créé votre image (mais je n'ai encore jamais eu ce cas, personnellement).
+* Vous pouvez voir que j'abuse un peu des `\` (pour les sauts de lignes) et des `#` (pour les commentaires), mais c'est important à mes yeux de **documenter votre Dockerfile**. J'ai vu tellement de Dockerfiles sans aucune explication sur le pourquoi du comment d'une dépendance ou d'un script exécuté que du coup je fais ça pour avoir un maximum d'infos. D'ailleurs, je vais même jusqu'à séparer l'installation de certains outils (vous verrez ça plus loin).
+* Aussi, il y a une bonne raison pour laquelle je rajoute `curl`, `wget`, `git` et `unzip` par défaut : ça facilite grandement l'installation de certaines dépendances, et Composer s'en servira peut-être lui-même pour installer vos dépendances PHP plus tard, et c'est plus rapide. Elles ne sont cependant pas 100% obligatoires (certains packages que vous installerez les installeront peut-être de toute façon).
 
 Et ça, c'est pour les dépendances _système_. Comme vous l'imaginez bien, on est à peine à la moitié de l'article, donc c'est pas fini.
+
+## Installation de PHP
+
+Pour installer PHP sur Debian, il y a plusieurs méthodes, mais nous voulons une **version précise** (comme spécifée par notre variable `PHP_VERSION` plus haut), et la version système disponible par défaut sur Debian n'est peut-être pas à notre convenance pour notre projet.
+
+### Le repository "deb sury"
+
+Nous allons utiliser le repository [deb.sury.org](https://deb.sury.org/) pour installer PHP, qui est l'un des contributeurs principaux pour fournir des packages PHP à l'écosystème Debian.
+
+Nous allons rajouter ceci à notre instruction `RUN` :
+
+```
+# ...
+RUN \
+  # ... \
+  && apt-get -y install apt-transport-https lsb-release ca-certificates curl \
+  && curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg  \
+  && (sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list') \
+  && apt-get update \
+```
+
+> **Note :** Ces instructions ne sont pas choisies au hasard, elles viennent du README qui est présent sur la documentation d'installation du repository deb.sury.org.
+> Vous pouvez d'ailleurs le retrouver ici : [https://packages.sury.org/php/README.txt](https://packages.sury.org/php/README.txt)
+
+### Enfin ! On installe PHP !
+
+Le repository maintenant installé, in faut installer PHP.
+
+Nous allons le faire uniquement avec `apt-get`, puisque le repository nous fournit une façon simple d'installer PHP : `php-VERSION_DE_PHP` (d'où notre variable d'environnement créée au départ).
+
+Voici les commandes que nous rajoutons à l'instruction `RUN` :
+
+
+```
+# ...
+RUN \
+  # ... \
+  && `# PHP` \
+  && apt-get install -y \
+      php${PHP_VERSION} \
+      php${PHP_VERSION}-cli \
+      php${PHP_VERSION}-common \
+      php${PHP_VERSION}-fpm \
+```
+
+Nous aurons là par défaut PHP en ligne de commande ainsi que PHP-FPM !
+
+Il faut donc passer à la suite.
+
+### Installer des extensions PHP
+
+Et là, c'est la même chose que précédemment : la façon d'installer est la même, mais il suffit de changer le suffixe à notre `php${PHP_VERSION}-...` et le remplacer par le nom de l'extension !
+
+Quasiment toutes les extensions peuvent être installées de cette manière.
+
+> Vous aurez peut-être parfois des différences d'installation pour certaines extensions comme APCu ou XDebug, mais ce sont à ma connaissance les seules extensions natives impactées, et l'installation se fera avec l'outil `pecl`, un gestionnaire d'extensions natif de PHP.<br>
+> Blackfire ou d'autres extensions comme Swoole ont leur propre méthode d'installation, et je vous renvoie vers leur documentation respective.
+
+Voici un **exemple** de liste d'extensions que vous pouvez rajouter à votre Dockerfile :
+
+```dockerfile
+# ...
+RUN \
+  # ... \
+  && `# PHP` \
+  && apt-get install -y \
+      php${PHP_VERSION} \
+      php${PHP_VERSION}-cli \
+      php${PHP_VERSION}-common \
+      php${PHP_VERSION}-fpm \
+      \
+      `# PHP extensions` \
+      php${PHP_VERSION}-apcu \
+      php${PHP_VERSION}-curl \
+      php${PHP_VERSION}-gd \
+      php${PHP_VERSION}-intl \
+      php${PHP_VERSION}-json \
+      php${PHP_VERSION}-mbstring \
+      php${PHP_VERSION}-mysql \
+      php${PHP_VERSION}-opcache \
+      php${PHP_VERSION}-readline \
+      php${PHP_VERSION}-xdebug \
+      php${PHP_VERSION}-xml \
+      php${PHP_VERSION}-zip \
+```
+
+C'est un **exemple**, vous n'aurez **pas besoin** de tout cela sur tous vos projets.<br>
+Installez seulement les dépendances dont vous avez réellement besoin.
 
 ## Permissions utilisateurs
 
@@ -185,10 +306,10 @@ Le problème avec ça, c'est que les permissions `root` vont se propager à votr
 
 C'est pour ça qu'il nous faut une solution pour être sûr que l'utilisateur dans le container sera le même que celui qui _exécute_ le container (le même que l'utilisateur de votre machine).
 
-> **Note :** Sous Windows, vous n'aurez pas ce problème, parce que Windows n'a pas du tout le même système de gestion de permissions que Linux.
-> Faites super attention du coup : chaque image Docker que vous créez **doit** être testée sous Linux, sauf si vous êtes 100% certain(e) qu'elle ne sera utilisée que sous Windows.
+> **Note :** Sous Windows, vous n'aurez pas ce problème, parce que Windows n'a pas du tout le même système de gestion de permissions que Linux.<br>
+> Par conséquent, vous devez faire attention : chaque image Docker que vous créez **doit** être testée sous Linux, sauf si vous êtes 100% certain(e) qu'elle ne sera utilisée que sous Windows.<br>
 > Sans cette astuce, vos images fonctionneront sous Windows mais pas sous Linux.
-> 
+>
 > Notez aussi que cette solution va devoir être réutilisée pour **chaque** image qui **manipule votre système de fichier**. Les images qui ne changent pas vos fichiers n'auront pas besoin de ça.
 
 ### Gosu
@@ -199,9 +320,11 @@ Voilà ce que j'ajoute au Dockerfile:
 
 ```dockerfile
 # ...
-ENV GOSU_VERSION=1.12
+ENV ... \
+    GOSU_VERSION=1.14 # Rajoutez cette variable à la liste des autres déjà rajoutées précédemment au Dockerfile.
 
-# ... the previously created "RUN" Docker statement
+RUN \
+    # ... \
     && `# User management for entrypoint` \
     && curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }') \
     && chmod +x /bin/gosu \
@@ -212,8 +335,8 @@ ENV GOSU_VERSION=1.12
 
 Résumé de ces 4 lignes de commande :
 
-* On télécharge Gosu en fonction de la version qu'on a mise dans la variable d'environnement plus haut.
-* On rend l'exécutable téléchargé, bah... exécutable.
+* Avec `curl`, on télécharge Gosu en fonction de la version qu'on a mise dans la variable d'environnement plus haut.
+* En utilisant `chmod`, on rend l'exécutable téléchargé, bah... exécutable.
 * On crée un groupe `_www`
 * On crée un utilisateur `_www` dans le groupe éponyme, sans mot de passe
 
@@ -251,7 +374,6 @@ L'entrypoint utilisera `gosu` pour exécuter toute commande en tant que l'utilis
 #!/bin/sh
 
 # ./docker/php/bin/entrypoint.sh
-
 set -e
 
 uid=$(stat -c %u /srv)
@@ -266,13 +388,12 @@ if [ "${uid}" -eq 0 ] && [ "${gid}" -eq 0 ]; then
     fi
 fi
 
-# Override php-fpm user & group config
-sed -i "s/user = www-data/user = _www/g" /usr/local/etc/php-fpm.d/www.conf
-sed -i "s/group = www-data/group = _www/g" /usr/local/etc/php-fpm.d/www.conf
+sed -i "s/user = www-data/user = _www/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
+sed -i "s/group = www-data/group = _www/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
 
-# Override native user and use the "_www" one created in the image
 sed -i -r "s/_www:x:\d+:\d+:/_www:x:$uid:$gid:/g" /etc/passwd
 sed -i -r "s/_www:x:\d+:/_www:x:$gid:/g" /etc/group
+
 chown _www /home
 
 if [ $# -eq 0 ]; then
@@ -288,22 +409,40 @@ Cependant, si vous faites tout ce qu'on a vu en installant `gosu`, créant l'uti
 
 Ouf !
 
+## Installer Composer
+
+Que serait l'écosystème PHP sans son gestionnaire de dépendances préféré ?
+
+
+```dockerfile
+RUN \
+    # ... \
+    && `# Composer` \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && EXPECTED_COMPOSER_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')" \
+    && ACTUAL_COMPOSER_CHECKSUM="$(php -r \"echo hash_file('sha384', 'composer-setup.php');\")" \
+    && if [ "$EXPECTED_COMPOSER_CHECKSUM" != "$ACTUAL_COMPOSER_CHECKSUM" ]; then (>&2 echo 'ERROR: Invalid installer checksum'); rm composer-setup.php; exit 1; fi \
+    && php composer-setup.php \
+    && rm composer-setup.php \
+    && mv composer.phar /usr/local/bin/composer \
+```
+
+Comme précédemment pour d'autres cas, ce code n'est pas posé ici au hasard : il vient de la [documentation d'installation de Composer](https://getcomposer.org/download/).
+
 ## Nettoyer l'image
 
 Les images Docker sont souvent TRÈS lourdes, c'est connu. L'image PHP la plus lourde que j'utilise fait 824 Mo, et j'ai installé des TAS de trucs dessus.<br>
-Cependant, en constriusant ces images, avant que j'exécute les scripts que je vous donne, ça peut aller au-delà d'1Go. C'est relou.
+Cependant, en construisant ces images, avant que j'exécute les scripts que je vous donne, ça peut aller au-delà d'1Go. C'est relou.
 
 C'est pour ça que je nettoie l'image à la fin et que je supprime tout ce que je peux et dont je n'ai pas besoin quand j'envoie cette image sur le Docker Hub :
 
 ```dockerfile
     && `# Clean apt cache and remove unused libs/packages to make image smaller` \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_LIBS \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
     && apt-get -y autoremove \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/* /var/cache/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/* /var/cache/* /home/.composer/cache /root/.composer/cache
 ```
-
-Vous pouvez constater la présence de la variable `$BUILD_LIBS` : c'est celle que l'on a créée au début de l'instruction `RUN` qui stocke les dépendances système dont on n'a pas besoin une fois l'image créée. Après, faites attention à ça, c'est un peu tendu parfois : il faut toujours tester l'image complète avant d'être certain que le fait de supprimer des trucs ne pète pas complètement votre projet en dev !
 
 ## Et c'est pas fini !
 
@@ -311,137 +450,109 @@ Oui, je dis ça tout le temps, mais regardons le **fichier Dockerfile** que nous
 
 ```dockerfile
 # ./Dockerfile
-FROM php:7.4-fpm
+FROM debian:10-slim
 
 LABEL maintainer="pierstoval@gmail.com"
 
-## Remember to make this script executable!
 COPY docker/php/bin/entrypoint.sh /bin/entrypoint
 
 ENTRYPOINT ["/bin/entrypoint"]
 
-## Having it named as "99-..." makes sure your file is the last one to be loaded,
-## therefore helping you override any part of PHP's native config.
-COPY docker/php/etc/php.ini /usr/local/etc/php/conf.d/99-custom.ini
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV \
+    PHP_VERSION=8.1 \
+    GOSU_VERSION=1.14
+
+COPY docker/php/etc/php.ini /etc/php/${PHP_VERSION}/fpm/conf.d/99-custom.ini
 
 RUN set -xe \
     && apt-get update \
-    && apt-get upgrade -y \
-    \
-    && `# Libs that are needed and  will be REMOVED in the final image` \
-    && export BUILD_LIBS=" \
-    " \
-    && `# Libs that need to be installed for some dependencies but that will be KEPT in the final image` \
-    && export PERSISTENT_LIBS=" \
-    " \
-    && apt-get install -y --no-install-recommends \
+    && apt-get upgrade -y --no-install-recommends \
         ca-certificates \
-        make \
         curl \
+        wget \
         git \
         unzip \
-        $BUILD_LIBS \
-        $PERSISTENT_LIBS \
     \
     \
-    && `# Here come the PHP dependencies (see later in this post)` \
+    && `# Deb Sury PHP repository` \
+    && apt-get -y install apt-transport-https lsb-release ca-certificates curl \
+    && curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg  \
+    && (sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list') \
+    && apt-get update \
+    \
+    \
+    && `# PHP` \
+    && apt-get install -y --no-install-recommends \
+        php${PHP_VERSION} \
+        php${PHP_VERSION}-cli \
+        php${PHP_VERSION}-common \
+        php${PHP_VERSION}-fpm \
+        \
+    `# PHP extensions` \
+        php${PHP_VERSION}-apcu \
+        php${PHP_VERSION}-curl \
+        php${PHP_VERSION}-gd \
+        php${PHP_VERSION}-intl \
+        php${PHP_VERSION}-mbstring \
+        php${PHP_VERSION}-mysql \
+        php${PHP_VERSION}-opcache \
+        php${PHP_VERSION}-readline \
+        php${PHP_VERSION}-xdebug \
+        php${PHP_VERSION}-xml \
+        php${PHP_VERSION}-zip \
     \
     \
     && `# User management for entrypoint` \
+    && chmod a+x /bin/entrypoint \
     && curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }') \
     && chmod +x /bin/gosu \
     && groupadd _www \
     && adduser --home=/home --shell=/bin/bash --ingroup=_www --disabled-password --quiet --gecos "" --force-badname _www \
     \
+    \
+    && `# Composer` \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && EXPECTED_COMPOSER_CHECKSUM=$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");') \
+    && ACTUAL_COMPOSER_CHECKSUM=$(php -r "echo hash_file('sha384', 'composer-setup.php');") \
+    && if [ "$EXPECTED_COMPOSER_CHECKSUM" != "$ACTUAL_COMPOSER_CHECKSUM" ]; then (>&2 echo 'ERROR: Invalid installer checksum'); rm composer-setup.php; exit 1; fi \
+    && php composer-setup.php \
+    && rm composer-setup.php \
+    && mv composer.phar /usr/local/bin/composer \
+    \
+    \
     && `# Clean apt cache and remove unused libs/packages to make image smaller` \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_LIBS \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
     && apt-get -y autoremove \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/* /var/cache/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/* /var/cache/* /home/.composer/cache /root/.composer/cache
 ```
 
 C'est déjà lourd !
 
-## Dépendances PHP
-
-Maintenant que vous avez votre Dockerfile PHP de base, vous avez besoin de dépendances.
-
-Quand je parle de dépendances PHP, je parle majoritairement d'extensions : `gd`, `intl`, `apcu`, etc.
-
-La plupart peuvent être installées de différentes manières (par exemple, `apcu` doit être installé via `pecl`).
-
-C'est pour ça que j'ai rajouté cette ligne dans le Dockerfile : 
-
-```
-    && `# Here come the PHP dependencies (see later)` \  
-```
-
-Dans **votre** Dockerfile, vous allez ajouter des extensions PHP dont vous avez besoin ici.
-
-**Par exemple**, voilà les instructions pour rajouter l'extension PHP `intl` :
-
-* Ajoutez le package `libicu-dev` à `BUILD_LIBS`
-* Ajoutez cette instruction dans vos dépendances PHP :<br>
-  ```shell script
-  && docker-php-ext-configure intl \
-  && docker-php-ext-install intl \
-  ```
-* Voilà !
-
-> **Note :** Les fonctions `docker-php-ext-configure` et `docker-php-ext-install` sont **spécifiques à l'image Docker PHP officielle**. Vous n'aurez pas ça sur Debian. C'est un outil qui facilite la configuration et l'installation d'extensions PHP, en les recompilant directement.
-
-Voilà ce à quoi ça pourrait ressembler dans votre Dockerfile:
-
-```dockerfile
-# ...
-    && `# Libs that are needed and  will be REMOVED in the final image` \
-    && export BUILD_LIBS=" \
-        `# php intl` libicu-dev \
-    " \
-# ...
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
-# ...
-```
-
-Remarquez le commentaire `#php intl` : c'est un rappel de pourquoi on a installé cette lib. C'est important si vous souhaitez garder une image claire et concise !
-
-La plupart du temps, installer des extensions PHP est similaire à cet exemple.
- 
-**Quelques recommandations cependant:**
-
-* La plupart des extensions ont besoin d'une lib système (comme `libicu-dev` pour l'extension PHP `intl`).
-* Quelques extensions vont avoir besoin de la lib **à la compilation**. Cela veut dire que vous pouvez l'ajouter à `BUILD_DIR`, et le Dockerfile supprimera ladite lib à la fin de la création de l'image.<br>
-
-  > **Note :** En faisant ça, faites bien attention à ne rien compiler **après** que l'image Docker soit nettoyée, sinon il vous manquera des libs et vous aurez des erreurs.
-* D'autres extensions vont avoir besoin de libs **à l'exécution de votre code**. Par exemple, `gd` aura besoin de libs PNG ou Jpeg à l'exécution. Cela veut dire qu'il faut les rajouter à `PERSISTENT_LIBS`.<br>
-
-  > **Note importante :** Mettez toujours vos libs dans `BUILD_LIBS` en premier, exécutez `php --version` et testez ensuite votre projet : si PHP vous renvoie des erreurs du style `PHP Warning:  PHP Startup: Unable to load dynamic library 'gd.so'`, cela signifie qu'une lib a besoin d'aller dans `PERSISTENT_LIBS`. En général, le message d'erreur indiquera quelle fonctionnalité pose problème. Par exemple, ça peut être `libjpeg-dev` pour `gd`. Testez chacune des libs une par une, pour être certain(e) de quelles libs sont nécessaires à l'exécution.
-
-Une note de plus (ça fait un paquet de notes, je sais) : les dépendances requises peuvent clairement changer en fonction des versions de PHP et des systèmes d'exploitation. Il peut y avoir pas mal de différences entre Ubuntu, Debian ou Alpine, par exemple. Assurez-vous toujours de bien connaître votre OS utilisé avant de commencer à faire une image Docker avec.
-
 ## Utiliser votre image
 
-Construisez votre image en exécutant `docker build . --tag=php74`, et si vous voulez l'utiliser, vous pouvez créer un container directement dans un shell comme ceci :
+Construisez votre image en exécutant `docker build . --tag=php81`, et si vous voulez l'utiliser, vous pouvez créer un container directement dans un shell comme ceci :
 
 ```
 # Linux, Mac, Powershell
-$ docker run -it --rm -v `pwd`:/srv php74 bash
+$ docker run -it --rm -v `pwd`:/srv php81 bash
 
 # Windows CMD
-> docker run -it --rm -v %cd%:/srv php74 bash
+> docker run -it --rm -v %cd%:/srv php81 bash
 ```
 
-Voilà ! Vous pouvez l'utiliser pour vos projets, et ça vous fait un exécutable PHP :)
+Voilà ! Vous pouvez l'utiliser pour vos projets, et ça vous fait un exécutable PHP 🙂.
 
-Notez le volume `-v ...:/srv` : c'est important en ouvrant un shell dans le container, puisque `/srv` sera le dossier de votre projet. 
+Notez le volume `-v ...:/srv` : c'est important en ouvrant un shell dans le container, puisque `/srv` sera le dossier de votre projet.
 
 Souvenez-vous que vous pouvez faire plein de choses avec votre image : analyse statique, Composer, etc., c'est très utile !
 
 Bonus : sous Linux vous pouvez créer un alias dans votre `.bashrc` pour simplifier l'appel à l'image de base :
 
 ```bash
-alias php-docker="docker run -it --rm -v `pwd`:/srv php74 php"
+alias php-docker="docker run -it --rm -v `pwd`:/srv php81 php"
 ```
 
 Et utilisez-le comme ceci ::
@@ -454,7 +565,7 @@ php-docker any_php_file.php
 > Windows CMD ne gère pas les alias, mais vous pouvez créer un fichier `php-docker.bat` contenant ceci :
 > ```cmd
 @echo off
-docker run -it --rm -v %cd%:/srv php74 php %*
+docker run -it --rm -v %cd%:/srv php81 php %*
 ```
 > Faites en sorte que ce fichier soit accessible par la variable PATH. En général, je crée un dossier `%HOME%/bin` et je mets à jour le `PATH` manuellement dans la configuration de Windows.
 
@@ -464,4 +575,4 @@ Une fois que vous avez une image PHP de base, en général c'est assez limité e
 
 Nous verrons ça dans l'article suivant !
 
-PS : Voici un [example de gros Dockerfile pour PHP](https://github.com/StudioAgate/DockerPortalApp) que j'utilise pour un projet perso. Vous pouvez y voir toutes les pratiques dont j'ai parlé, et j'ai installé plein d'autres choses comme Blackfire, ImageMagick, phpstan ou php-cs-fixer.
+PS : Voici un [example de gros Dockerfile pour PHP](https://github.com/StudioAgate/DockerPortalApp) que j'utilise pour un projet perso. Vous pouvez y voir toutes les pratiques dont j'ai parlé, et j'ai installé plein d'autres choses comme ImageMagick, phpstan ou php-cs-fixer.

@@ -29,3 +29,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # To avoid polling for changes
 gem 'wdm', '>= 0.1.1' if Gem.win_platform?
+
+gem "webrick", "~> 1.7"
