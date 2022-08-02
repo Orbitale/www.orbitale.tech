@@ -2,6 +2,8 @@
 layout: post
 title:  'Being a PHP developer on Windows: 10 cool snippets'
 date:   2020-06-25 11:58:22 +0200
+lang: en
+lang-ref: being-a-php-developer-on-windows
 ---
 
 I am coding on Windows, and sometimes, I need aliases, scripts and handy tools.

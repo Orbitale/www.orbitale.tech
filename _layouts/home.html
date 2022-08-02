@@ -36,6 +36,8 @@ layout: default
     </ul>
 
     <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- else -%}
+    <p>Seems like this post is empty for a maybe erroneous reason.</p>
   {%- endif -%}
 
 </div>
