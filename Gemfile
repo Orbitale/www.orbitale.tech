@@ -8,7 +8,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 4.1"
+gem "jekyll", "~> 3.9"
 
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
 gem "minima", "~> 2.5"
@@ -30,4 +30,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # To avoid polling for changes
 gem 'wdm', '>= 0.1.1' if Gem.win_platform?
 
-gem "webrick", "~> 1.7"
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0')
+  gem "webrick", "~> 1.7"
+end
