@@ -13,7 +13,7 @@ par exemple.
 
 La plupart des options d'ImageMagick sont utilisables, certaines sont manquantes mais il est assez simple de contribuer !<br>
 Avec cette bibliothèque, vous créez un objet `Command`, vous pouvez ajouter des arguments options, des images, etc.<br>
-Vous exécutez ensuite cette commande, et vous obtenez en retour un objet [CommandResponse](https://github.com/Orbitale/ImageMagickPHP/blob/master/CommandResponse.php "CommandResponse.php") que vous pouvez utiliser pour vérifier si la commande a échoué ou non.
+Vous exécutez ensuite cette commande, et vous obtenez en retour un objet [CommandResponse](https://github.com/Orbitale/ImageMagickPHP/blob/main/src/CommandResponse.php "CommandResponse.php") que vous pouvez utiliser pour vérifier si la commande a échoué ou non.
 
 Mais, la partie la plus difficile de cette bibliothèque concernait le traitement d'image. Si par exemple vous voulez
 [redimensionner (option "resize")](http://www.imagemagick.org/script/command-line-options.php#resize) une image, vous devez passer un
@@ -63,7 +63,7 @@ Par exemple, vous pouvez utiliser **200×250** (200 pixels de large, 250 pixels 
 
 Il y a d'autres cas d'usage, mais nous devons réfléchir très sérieusement lorsque nous voulons valider l'option Geometry dans la commande ImageMagick.
 
-Comme il est possible de le voir dans la classe [GeometryTest](https://github.com/Orbitale/ImageMagickPHP/blob/master/Tests/GeometryTest.php)
+Comme il est possible de le voir dans la classe [GeometryTest](https://github.com/Orbitale/ImageMagickPHP/blob/main/Tests/References/GeometryTest.php)
 , j'ai testé **tous** les cas de l'option Geometry et demandé à ImageMagick lesquels fonctionnent.
 
 Certains cas d'erreur sont assez surprenants, d'autres sont évidents.

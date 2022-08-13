@@ -13,7 +13,7 @@ for example.
 
 This lib is still a "Work in progress", but it stores all common command instructions, you're able to prepend/append
 informations depending on the instruction type, etc., and when you run the command you get a
-[CommandResponse](https://github.com/Orbitale/ImageMagickPHP/blob/master/CommandResponse.php "CommandResponse.php")
+[CommandResponse](https://github.com/Orbitale/ImageMagickPHP/blob/main/src/CommandResponse.php "CommandResponse.php")
 object that you can use to check whether the command failed or not.
 
 But, the hardest part of this library was that when processing images, for example if you want to
@@ -66,7 +66,7 @@ error.
 There are more tricks to see, but we have to think very hard when we want to validate the Geometry option in the
 ImageMagick PHP command.
 
-As you can see in the [GeometryTest](https://github.com/Orbitale/ImageMagickPHP/blob/master/Tests/GeometryTest.php)
+As you can see in the [GeometryTest](https://github.com/Orbitale/ImageMagickPHP/blob/main/Tests/References/GeometryTest.php)
 class, I tested **all** different geometry combinations and asked ImageMagick whether it works or not.
 
 Some fails were surprising, some not.
