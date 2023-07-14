@@ -1,7 +1,9 @@
 ---
 layout: post
 title:  '"La terre a déjà été chaude" et son point de vue biaisé'
-date:   2023-07-14 14:24:27 -0500
+date:   2023-07-14 16:24:27 -0100
+lang: fr
+lang-ref: la-terre-a-deja-ete-chaude-et-son-point-de-vue-biaise
 ---
 
 Entre le moment le plus froid de la dernière ère glaciaire (que l'humain a vécue, pour rappel) et la "fin" de cette ère glaciaire, il s'est écoulé près de 11000 ans, et le changement global sur toute la période était d'environ +4°C.

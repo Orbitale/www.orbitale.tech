@@ -1,7 +1,9 @@
 ---
 layout: post
 title:  '"Earth has already been warm" and its biased views'
-date:   2023-07-14 14:24:27 -0500
+date:   2023-07-14 16:24:27 -0100
+lang: en
+lang-ref: la-terre-a-deja-ete-chaude-et-son-point-de-vue-biaise
 ---
 
 Between the coldest moment of the last Ice Age (which humans lived through, as a reminder) and the "end" of that Ice Age, nearly 11,000 years passed, and the global change over the whole period was around +4°C.
