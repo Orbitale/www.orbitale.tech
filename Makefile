@@ -31,4 +31,4 @@ build: ## Build the website
 
 
 new: start ## Create a new blog post
-	docker-compose exec jekyll ruby generate_page.rb
+	docker-compose exec jekyll entrypoint ruby generate_page.rb
