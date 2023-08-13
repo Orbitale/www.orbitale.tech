@@ -21,7 +21,7 @@ En fait, ce concept d'avoir l'impossibilité de s'exprimer par la voix mais un c
 Selon la sévérité des traits autistiques (plus souvent appelés "TSA" pour "Troubles dans le Spectre de l'Autisme"), certain(e)s autistes sont capables de s'exprimer verbalement, ou non.
 
 Et pour celles et ceux qui y arrivent, c'est un parcours du combattant.<br>
-C'est encore pire pour les personnes qui "cumulent" des particularités (épilepsie, TDA/H, HPI, dépression, psychoses, schizophrénie, et tant d'autres neuro-atypies, pathologiques ou pas), pouur qui c'est parfois mission impossible.
+C'est encore pire pour les personnes qui "cumulent" des particularités (épilepsie, TDA/H, HPI, dépression, psychoses, schizophrénie, et tant d'autres neuro-atypies, pathologiques ou pas), pour qui c'est parfois mission impossible.
 
 De manière générale, chez la plupart des êtres humains, il y a un besoin de lien social et émotionnel qui est important (c'est biologique : c'est une technique de survie, l'humanité n'a survécu que parce qu'elle vit en communautés fortement liées).<br>
 Or, chez les personnes autistes, ce besoin de lien social est altéré, parfois complètement "coupé", par des modifications neurologiques qui empêchent certaines interactions sociales (source: Thomas Bourgeron - "Des gènes, des synapses, des autismes").
