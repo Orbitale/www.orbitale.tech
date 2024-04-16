@@ -485,6 +485,8 @@ hr {
 }
 
 .lang-options {
+    display: flex;
+    flex-direction: column-reverse;
     margin-top: 10px;
 }
 
@@ -493,6 +495,7 @@ hr {
   list-style: inside none;
   display: inline-block;
 }
+
 .lang-options ul {
     margin-left: 10px;
     margin-bottom: 0;
