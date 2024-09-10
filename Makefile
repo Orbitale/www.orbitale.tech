@@ -17,6 +17,8 @@ help: ## Show this help message
 
 install: ## Install dependencies
 	docker-compose run --rm jekyll bundle install
+	chmod a+x vendor/bundle/bin/*
+	$(MAKE) start
 
 start: ## Start the project
 	docker-compose up -d

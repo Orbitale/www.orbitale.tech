@@ -25,11 +25,16 @@ date_full = Time.now.strftime("%Y-%m-%d %H:%M:%S %z")
 print "Date (simple): #{date_simple}"
 print "Date (full): #{date_full}"
 
+title_en_simple = title_en.downcase.gsub(/[^a-zA-Z0-9]+/i, "-").gsub(/--+|^-|-$/, "")
+title_fr_simple = title_fr.downcase.gsub(/[^a-zA-Z0-9]+/i, "-").gsub(/--+|^-|-$/, "")
+
 template_en = """\
 ---
 layout: post
 title:  '#{title_en}'
 date:   #{date_full}
+lang:   en
+lang-ref: #{title_en_simple}
 ---
 
 Hello world!
@@ -39,13 +44,12 @@ template_fr = """\
 layout: post
 title:  '#{title_fr}'
 date:   #{date_full}
+lang:   fr
+lang-ref: #{title_en_simple}
 ---
 
-Hello world!
+Bonjour Monde !
 """
-
-title_en_simple = title_en.downcase.gsub(/[^a-zA-Z0-9]+/i, "-").gsub(/--+|^-|-$/, "")
-title_fr_simple = title_fr.downcase.gsub(/[^a-zA-Z0-9]+/i, "-").gsub(/--+|^-|-$/, "")
 
 filename_en = "#{date_simple}-#{title_en_simple}.md"
 filename_fr = "#{date_simple}-#{title_fr_simple}.md"
