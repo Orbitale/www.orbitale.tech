@@ -6,6 +6,8 @@ lang:   en
 lang-ref: saas-and-competition-issues
 ---
 
+Last modified: 2024-09-14 22:07 
+
 The hype must stop.
 
 Calm down, tech-preneurs.
@@ -44,3 +46,15 @@ That's Open Source.
 Collaboration for the common good.
 
 As opposed to competition for personal and individual profit.
+
+---
+
+Edit: I wrote this article before this other one was published: https://astro.build/blog/goodbye-astro-studio/.
+
+It's "funny", because what happened with Astro Studio is exactly the logical consequence of what I've just written.
+
+Quality is one thing, but what really works is popularity (and the chance or opportunity to acquire said popularity). Without these prerequisites, the project doesn't work.
+
+In the meantime, literally **MILLIONS** of units of money are injected into certain SaaS every year, and a huge proportion of them don't work.
+
+It's sad, and as I said at the start of this article, tech-bros don't talk about it, or maybe very little, because it doesn't look good to show a failure. It doesn't sell as well at fund-raising pitches.
