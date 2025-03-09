@@ -39,4 +39,4 @@ config:
 Or more complex canvases!
 
 * [View EasyImpressBundle on Github](https://github.com/Orbitale/EasyImpressBundle), with its documentation.
-* [View the demo here](http://demo.orbitale.io/easy_impress/).
+* [View the demo here](http://demo.orbitale.tech/easy_impress/).

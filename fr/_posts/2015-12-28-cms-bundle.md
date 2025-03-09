@@ -25,6 +25,6 @@ Template basé sur l'URL = mise en page 100% personnalisée.
 Prêt à brancher sur le générateur d'administration EasyAdminBundle de Javier Eguiluz
 avec un code simple expliqué dans la documentation !
 
-* [Voir la démo ici](http://demo.orbitale.io/orbitale_cms/)
+* [Voir la démo ici](http://demo.orbitale.tech/orbitale_cms/)
 * [Voir OrbitaleCmsBundle sur Github](https://github.com/Orbitale/CmsBundle)
 * [Et la documentation ici](https://github.com/Orbitale/CmsBundle)

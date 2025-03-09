@@ -109,7 +109,7 @@ However, this program is not really intuitive, and `sc create` is not easy as it
 
 That is why I am using [NSSM](https://nssm.cc/download), and I added it to my dotfiles so I don't have to re-download it from its main site each time I setup a new machine.
 
-I already talked about [NSSM in a previous post about Apache and PHP-FPM on Windows](https://www.orbitale.io/2017/11/11/apache-and-php-fpm-in-windows.html), check it out.
+I already talked about [NSSM in a previous post about Apache and PHP-FPM on Windows](https://www.orbitale.tech/2017/11/11/apache-and-php-fpm-in-windows.html), check it out.
 
 You now can create daemons by running `nssm install {your daemon name}`, and you can then **customize everything**: binary, arguments, working directory, environment variables, i/o, timeouts, rotate log files…<br>
 **Everything**.

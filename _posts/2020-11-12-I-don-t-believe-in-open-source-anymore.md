@@ -12,7 +12,7 @@ Some reasons:
 
 1. [https://twitter.com/Pierstoval/status/1323258961974435840](https://twitter.com/Pierstoval/status/1323258961974435840)
 2. [https://twitter.com/suckup_de/status/1326840923423170560](https://twitter.com/suckup_de/status/1326840923423170560)
-3. [https://www.orbitale.io/2019/04/19/capitalism-in-the-open-source-world.html](https://www.orbitale.io/2019/04/19/capitalism-in-the-open-source-world.html)
+3. [https://www.orbitale.tech/2019/04/19/capitalism-in-the-open-source-world.html](https://www.orbitale.tech/2019/04/19/capitalism-in-the-open-source-world.html)
 
 Next: continue reading.
 

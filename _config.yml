@@ -13,12 +13,12 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Orbitale.io
-email: alex@orbitale.io
+title: Orbitale.tech
+#email: alex@orbitale.tech
 description: >
     It's just me trying to find useful things to do for the world of programming, expecially for the web.
 baseurl: ""
-url: "http://www.orbitale.io"
+url: "http://www.orbitale.tech"
 twitter_username: pierstoval
 github_username:  pierstoval
 

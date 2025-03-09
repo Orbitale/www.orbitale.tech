@@ -39,4 +39,4 @@ config:
 Ou des présentations plus complexes!
 
 * [Voir EasyImpressBundle sur Github](https://github.com/Orbitale/EasyImpressBundle), avec sa documentation.
-* [Voir la démo ici](http://demo.orbitale.io/easy_impress/).
+* [Voir la démo ici](http://demo.orbitale.tech/easy_impress/).
