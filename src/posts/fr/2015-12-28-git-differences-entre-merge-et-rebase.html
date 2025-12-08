@@ -1,0 +1,103 @@
+---
+layout: post
+title:  "Git - Différences entre merge et rebase"
+date:   "2015-12-28 22:31:56 +2"
+lastUpdate:   "2018-08-27 09:56:00 +2"
+lang: fr
+lang-ref: git-difference-between-merge-and-rebase
+---
+
+<p>Revenons aux bases: Git.</p>
+
+<p>Ce puissant outil de gestion de versions est largement sous-estimé par les nouveaux venus car <em>« Oh, wow, c'est super dur de comprendre quelle est la différence entre <code>git pull origin main</code> et <code>git merge origin/main</code>, et puis de toute façon c'est quoi ce "/" au milieu ? »</em></p>
+
+<p>Oui, je trolle un peu, mais en fait, il y a quelque chose de génial que nous pouvons faire et qui est très simple quand on sait ce que c'est : <code>rebase</code>.</p>
+
+<p>Commençons avec ça :</p>
+
+<pre>* 33facc8  (main) Commit 3
+|
+| * 3b36f32  (second_branch) Commit détaché
+| |
+|/
+* 29af11f  Commit 2
+|
+* 1439f8e  Commit 1
+</pre>
+
+<p><strong>Nous travaillerons sur la branche <code>second_branch</code></strong>, qui est créée sur la base d'une version précédente de la branche <code>main</code>. La branche <code>second_branch</code> a un commit de plus que <code>main</code>. Mais, entre temps, quelqu'un s'est mis à travailler sur <code>main</code> et a rajouté des commits.</p>
+
+<p>Nos branches divergent.</p>
+
+<p><strong>Problème :</strong> j'ai besoin des modifications de <code>Commit 3</code> pour travailler sur ma branche (ou alors mon équipe veut que je garde toujours mon code à jour avec <code>main</code>).</p>
+
+<p>Deux possibilités ici :</p>
+
+<ul>
+    <li>Utiliser <code>merge</code> (ou <code>pull</code> pour les paresseux, puisque c'est juste un alias de <code>fetch</code> &plus; <code>merge</code>).</li>
+    <li>Utiliser <code>rebase</code>.</li>
+</ul>
+
+<p style="border-radius: 5px;background-color: #dcf6ff;color: #005d8b;padding: 5px 10px;">Rappel : nous travaillons sur <code>second_branch</code>. Cela signifie que nous avons préalablement exécuté la commande <code>git checkout second_branch</code>.</p>
+
+<section style="display: flex;"><aside style="width:50%;padding:5px;margin: 0;">
+<h3>Résultat d'un <code>git merge main</code></h3>
+<pre style="font-size: 11px;">*   63c6403  (main) Merge "second_branch" in "main"
+|\
+| |
+* | 33facc8 Commit 3
+| |
+| * 3b36f32  (second_branch) Commit détaché
+| |
+|/
+* 29af11f  Commit 2
+|
+* 1439f8e  Commit 1</pre>
+
+<p>Comme les branches divergent, nous ne pouvons pas <code>fast-forward</code> (<a href="https://confluence.atlassian.com/bitbucket/git-fast-forwards-and-branch-management-329977726.html">un peu de documentation sur "fast-forward"</a>) le processus de <code>merge</code>, donc Git crée ce que nous appelons un <strong>commit de <em>merge</em></strong> pour appliquer toutes les modifications de <code>main</code> dans <code>second_branch</code>.</p>
+
+<p>Du coup, nous avons un graphe Git un peu laid.</p>
+
+<p>MAIS, ça reste cohérent avec tous les commits car ils ne changent pas.</p>
+
+<p><strong>Remarque :</strong> Ce qui est cool c'est que si vous supprimez uniquement le commit de fusion (numéro <code>63c6403</code> dans notre cas) de l'arborescence (avec un <code>rebase -i</code> ou un <code>reset</code>), alors tous les commits de la branche fusionnée sont également détachés de la branche <br>
+Ça permet un <em>rollback</em> très facile lorsque vous devez fusionner des tonnes de commits d'une branche et que vous devez <em>rollback</em> dans l'urgence : supprimez simplement le commit de fusion et c'est fait.</p>
+
+</aside><aside style="width:50%;padding:5px;margin: 0;">
+
+<h3>Résultat d'un <code>git rebase main</code></h3>
+<pre style="font-size: 11px;">* a018520  (HEAD -&gt; second_branch) Commit détaché
+|
+* 33facc8  (main) Commit 3
+|
+* 29af11f  Commit 2
+|
+* 1439f8e  Commit 1</pre>
+
+   <p>Le <code>HEAD</code> précédent (pointeur vers le dernier commit de la branche actuellement sélectionnée) de ma <code>second_branch</code> était <strong>"Commit 2"</strong>, et en exécutant <code>git rebase</code>, je veux que ce <code>HEAD</code> soit le même que la branche <code>main</code>, donc que les branches aient la <strong>même base</strong>, et ensuite je veux ajouter tous les commits de <code>second_branch</code> qui n'étaient pas dans <code>main</code> à la base.</p>
+<p>Cela crée un très joli arbre Git bien linéaire.</p>
+   <p>MAIS, l'arborescence change, car le hash de <code>Commit détaché</code> (dans la <code>second_branch</code>) était <code>3b36f32</code> au début, et a changé pour <code>a018520</code> après le <em>rebase</em>. En gros, si quelqu'un avait commencé à travailler sur <code>second_branch</code> sans committer ses changements, il lui sera difficile de récupérer la nouvelle version de <code>second_branch</code> car son arbre a complètement changé. C'est quand même possible, mais pas simple pour autant.</p>
+
+<p>C'est un peu complexe, j'avoue, mais en réalité, il s'agit de changer l'ancien "commit de base" de cette branche vers la "nouvelle" base.</p>
+
+</aside></section>
+
+<p>Si vous avez besoin d'une meilleure représentation, vous pouvez <a href="http://images.lmgtfy.com/?q=git+rebase">jeter un oeil sur google images pour quelques graphiques de ce que produit un "rebase"</a>. C'est joli (oui, j'aime les graphes).</p>
+
+<h2>Résumé</h2>
+
+<div style="display: flex;">
+   <div style="width: 50%; padding: 5px; margin: 0;">
+      <h3><code>git merge {branch}</code></h3>
+      <p>Applique les modifications de la branche <code>{branch}</code> à la branche courante, et si les branches divergent (ou que l'option <code>--no-ff</code> est spécifiée), Git créera un nouveau "commit de merge" indiquant que les deux branches ont été fusionnées.</p>
+   </div>
+   <div style="width: 50%; padding: 5px; margin: 0;">
+      <h3><code>git rebase {branch}</code></h3>
+      <p>Réécrit l'historique actuel de la branche. Dans un premier temps, il garde tous les "nouveaux commits" de la branche courante (en commençant par <code>HEAD</code>) en mémoire, puis applique tous les commits "manquants" de la branche <code>{branch}</code> (qui devrait de toute façon <code>fast-forward</code>), et enfin applique les modifications de la branche courante qui sont en mémoire une par une, jusqu'à ce que chaque conflit (s'il y en a) soit résolu, et change les hash des nouveaux commits.</p>
+   </div>
+</div>
+
+<p>Et <em>rebase</em> n'est qu'un seul des nombreux composant de Git.</p>
+<p>Regardez aussi les commandes <a href="https://git-scm.com/docs/git-for-each-ref" target="_blank" rel="noopener noreferrer">for-each-ref</a> ou <a href="https://git-scm.com/docs/git-log" target="_blank" rel="noopener noreferrer">log</a>, vous pouvez faire des trucs géniaux avec !</p>
+
+<img class="aligncenter size-full wp-image-108" src="/img/git_merge_vs_rebase.jpg" alt="Git merge vs rebase">
